@@ -6,32 +6,55 @@
       "marker": "../Images/aruco-0.png",
       "control": "arrows",
       "position": [1, 0.2, -1]
+    },
+    {
+      "marker": "../Images/aruco-1.png",
+      "control": "udp:3000",
+      "position": [-1, 0.2, 1]
     }
   ],
-  "balls": [
+  "dynamicObjects": [
     {
+      "type": "ball",
       "color": "#ff0018",
-      "position": [1.6, 0.4, 1.6]
+      "position": [1.6, 0.4, 1.6],
+      "mass": 0.01,
+      "size": 0.3
     },
     {
+      "type": "ball",
       "color": "#ffa52c",
-      "position": [1, 0.6, 1]
+      "position": [1, 0.6, 1],
+      "mass": 0.01,
+      "size": 0.08
     },
     {
+      "type": "ball",
       "color": "#ffff41",
-      "position": [0.4, 0.6, 0.4]
+      "position": [0.4, 0.6, 0.4],
+      "mass": 0.01,
+      "size": 0.08
     },
     {
+      "type": "ball",
       "color": "#008018",
-      "position": [-0.4, 1, -0.4]
+      "position": [-0.4, 1, -0.4],
+      "mass": 0.01,
+      "size": 0.08
     },
     {
+      "type": "ball",
       "color": "#0000F9",
-      "position": [-1, 1.2, -1]
+      "position": [-1, 1.2, -1],
+      "mass": 0.01,
+      "size": 0.08
     },
     {
-      "color": "#86007D",
-      "position": [-1.6, 1.4, -1.6]
+      "type": "traffic-cone",
+      "color": null,
+      "position": [-1.6, 1.4, -1.6],
+      "mass": 0.2,
+      "size": 1
     }
   ]
 }
