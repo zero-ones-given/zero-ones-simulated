@@ -1,0 +1,37 @@
+{
+  "quality": 5,
+  "timeScale": 1,
+  "robots": [
+    {
+      "marker": "../Images/aruco-0.png",
+      "control": "arrows",
+      "position": [1, 0.2, -1]
+    }
+  ],
+  "balls": [
+    {
+      "color": "#ff0018",
+      "position": [1.6, 0.4, 1.6]
+    },
+    {
+      "color": "#ffa52c",
+      "position": [1, 0.6, 1]
+    },
+    {
+      "color": "#ffff41",
+      "position": [0.4, 0.6, 0.4]
+    },
+    {
+      "color": "#008018",
+      "position": [-0.4, 1, -0.4]
+    },
+    {
+      "color": "#0000F9",
+      "position": [-1, 1.2, -1]
+    },
+    {
+      "color": "#86007D",
+      "position": [-1.6, 1.4, -1.6]
+    }
+  ]
+}
