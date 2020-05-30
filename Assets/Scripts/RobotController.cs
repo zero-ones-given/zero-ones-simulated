@@ -35,7 +35,6 @@ public class RobotController : MonoBehaviour
         string[] commandValues = command.Split(',');
         if (commandValues.Length == 2)
         {
-            Debug.Log("Left:" + commandValues[0].ToString());
             Int32.TryParse(commandValues[0], out leftTorque);
             Int32.TryParse(commandValues[1], out rightTorque);
         }
