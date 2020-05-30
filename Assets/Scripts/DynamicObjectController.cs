@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class BallController : MonoBehaviour
+public class DynamicObjectController : MonoBehaviour
 {
     float bounceMultiplier = 0.8f;
-    Rigidbody ball;
+    Rigidbody dynamicObject;
     void Start()
     {
-        ball = GetComponent<Rigidbody>();
+        dynamicObject = GetComponent<Rigidbody>();
     }
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)
@@ -46,7 +46,7 @@ public class BallController : MonoBehaviour
 
     void Update()
     {
-        ball.velocity = FlipVelocityIfOver(ball, 2f, 4f, 2f);
-        ball.transform.position = EnsurePositionIsWithin(ball.transform.position, 2f, 6f, 2f, 0.1f);
+        dynamicObject.velocity = FlipVelocityIfOver(dynamicObject, 2f, 4f, 2f);
+        dynamicObject.transform.position = EnsurePositionIsWithin(dynamicObject.transform.position, 2f, 6f, 2f, 0.1f);
     }
 }
