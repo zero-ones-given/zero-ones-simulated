@@ -9,7 +9,7 @@
     },
     {
       "marker": "../Images/aruco-1.png",
-      "control": "udp:3000",
+      "control": "udp:3002",
       "position": [-1, 0.2, 1]
     }
   ],
@@ -18,8 +18,8 @@
       "type": "ball",
       "color": "#ff0018",
       "position": [1.6, 0.4, 1.6],
-      "mass": 0.01,
-      "size": 0.3
+      "mass": 1.5,
+      "size": 0.25
     },
     {
       "type": "ball",
@@ -29,11 +29,11 @@
       "size": 0.08
     },
     {
-      "type": "ball",
+      "type": "cube",
       "color": "#ffff41",
       "position": [0.4, 0.6, 0.4],
       "mass": 0.01,
-      "size": 0.08
+      "size": 0.15
     },
     {
       "type": "ball",
@@ -47,12 +47,19 @@
       "color": "#0000F9",
       "position": [-1, 1.2, -1],
       "mass": 0.01,
-      "size": 0.08
+      "size": 0.05
+    },
+    {
+      "type": "cube",
+      "color": "#86007D",
+      "position": [-1.6, 1.4, -1.6],
+      "mass": 0.01,
+      "size": 0.1
     },
     {
       "type": "traffic-cone",
       "color": null,
-      "position": [-1.6, 1.4, -1.6],
+      "position": [-1, 1.4, -1.6],
       "mass": 0.2,
       "size": 1
     }

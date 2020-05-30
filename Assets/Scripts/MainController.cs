@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
+using System;
 using System.IO;
 using System.Threading;
-using System.Collections.Specialized;
-
 
 public class MainController : MonoBehaviour
 {
     public GameObject ballPrefab;
     public GameObject robotPrefab;
     public GameObject trafficConePrefab;
+    public GameObject cubePrefab;
 
     void SpawnDynamicObjects(DynamicObject[] dynamicObjects)
     {
@@ -27,6 +27,8 @@ public class MainController : MonoBehaviour
         {
             case "traffic-cone":
                 return trafficConePrefab;
+            case "cube":
+                return cubePrefab;
         }
         return ballPrefab;
     }
@@ -69,20 +71,24 @@ public class MainController : MonoBehaviour
     void SpawnRobots(Robot[] robots)
     {
         foreach(Robot robot in robots) {
-            SpawnRobot(
-                new Vector3(robot.position[0], robot.position[1], robot.position[2]),
-                robot.marker,
-                robot.control
-            );
+            SpawnRobot(robot);
         }
     }
-    void SpawnRobot(Vector3 position, string texture, string control)
+    void SpawnRobot(Robot robot)
     {
-        GameObject robot = SpawnPrefab(robotPrefab, position);
-        robot.transform
+        Vector3 position = new Vector3(robot.position[0], robot.position[1], robot.position[2]);
+        GameObject newRobot = SpawnPrefab(robotPrefab, position);
+        newRobot.transform
             .Find("Marker")
-            .GetComponent<Renderer>().material.mainTexture = LoadTexture(texture);
-        robot.GetComponent<RobotController>().control = control;
+            .GetComponent<Renderer>().material.mainTexture = LoadTexture(robot.marker);
+        string[] controlParts = robot.control.Split(':');
+        RobotController robotController = newRobot.GetComponent<RobotController>();
+        robotController.control = controlParts[0];
+        if (controlParts.Length == 2) {
+            int port;
+            Int32.TryParse(controlParts[1], out port);
+            robotController.port = port;
+        }
     }
 
     void Start()
