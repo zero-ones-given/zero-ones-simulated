@@ -4,13 +4,15 @@
   "robots": [
     {
       "marker": "../Images/aruco-0.png",
+      "color": "#ff0000",
       "control": "arrows",
-      "position": [1, 0.2, -1]
+      "position": [1, 0.2, -1, 315]
     },
     {
       "marker": "../Images/aruco-1.png",
+      "color": "#0000ff",
       "control": "udp:3002",
-      "position": [-1, 0.2, 1]
+      "position": [-1, 0.2, 1, 135]
     }
   ],
   "dynamicObjects": [
