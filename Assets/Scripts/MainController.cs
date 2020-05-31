@@ -16,10 +16,16 @@ public class MainController : MonoBehaviour
             SpawnDynamicObject(dynamicObject);
         }
     }
-    GameObject SpawnPrefab(GameObject prefab, Vector3 position)
+    GameObject SpawnPrefab(GameObject prefab, Vector3 position, string hexColor)
     {
         GameObject newObject = Instantiate(prefab);
         newObject.transform.position = position;
+        Color color = new Color(1, 1, 1);
+        ColorUtility.TryParseHtmlString(hexColor, out color);
+        MeshRenderer renderer = newObject.GetComponent<MeshRenderer>();
+        if (renderer) {
+            renderer.material.color = color;
+        }
         return newObject;
     }
     GameObject GetPrefab(string type) {
@@ -34,20 +40,13 @@ public class MainController : MonoBehaviour
     }
     void SpawnDynamicObject(DynamicObject dynamicObject)
     {
-        Color color = new Color(1, 1, 1);
-        ColorUtility.TryParseHtmlString(dynamicObject.color, out color);
         Vector3 position = new Vector3(
             dynamicObject.position[0],
             dynamicObject.position[1],
             dynamicObject.position[2]
         );
-
         GameObject prefab = GetPrefab(dynamicObject.type);
-        GameObject newObject = SpawnPrefab(prefab, position);
-        MeshRenderer renderer = newObject.GetComponent<MeshRenderer>();
-        if (renderer) {
-            renderer.material.color = color;
-        }
+        GameObject newObject = SpawnPrefab(prefab, position, dynamicObject.color);
         newObject.GetComponent<Rigidbody>().mass = dynamicObject.mass;
         newObject.transform.localScale = new Vector3(
             dynamicObject.size,
@@ -77,10 +76,14 @@ public class MainController : MonoBehaviour
     void SpawnRobot(Robot robot)
     {
         Vector3 position = new Vector3(robot.position[0], robot.position[1], robot.position[2]);
-        GameObject newRobot = SpawnPrefab(robotPrefab, position);
+        GameObject newRobot = SpawnPrefab(robotPrefab, position, robot.color);
         newRobot.transform
             .Find("Marker")
             .GetComponent<Renderer>().material.mainTexture = LoadTexture(robot.marker);
+
+        if (robot.position.Length == 4) {
+            newRobot.transform.rotation = Quaternion.Euler(0, robot.position[3], 0);
+        }
         string[] controlParts = robot.control.Split(':');
         RobotController robotController = newRobot.GetComponent<RobotController>();
         robotController.control = controlParts[0];
@@ -124,6 +127,7 @@ public class DynamicObject
 public class Robot
 {
     public string marker;
+    public string color;
     public string control;
     public float[] position;
 } 
