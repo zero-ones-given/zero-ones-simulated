@@ -104,6 +104,8 @@ public class MainController : MonoBehaviour
 
         SpawnDynamicObjects(configuration.dynamicObjects);
         SpawnRobots(configuration.robots);
+
+        new VideoServer().Start();
     }
 
     void Update ()
