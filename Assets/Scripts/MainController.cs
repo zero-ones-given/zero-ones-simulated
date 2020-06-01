@@ -12,7 +12,8 @@ public class MainController : MonoBehaviour
 
     void SpawnDynamicObjects(DynamicObject[] dynamicObjects)
     {
-        foreach(DynamicObject dynamicObject in dynamicObjects) {
+        foreach(DynamicObject dynamicObject in dynamicObjects)
+        {
             SpawnDynamicObject(dynamicObject);
         }
     }
@@ -77,7 +78,8 @@ public class MainController : MonoBehaviour
 
     void SpawnRobots(Robot[] robots)
     {
-        foreach (Robot robot in robots) {
+        foreach (Robot robot in robots)
+        {
             SpawnRobot(robot);
         }
     }
@@ -118,7 +120,8 @@ public class MainController : MonoBehaviour
 
     void Update ()
     {
-        if (Input.GetKey("escape")) {
+        if (Input.GetKey("escape"))
+        {
             Application.Quit();
         }
     }

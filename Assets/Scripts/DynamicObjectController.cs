@@ -22,7 +22,8 @@ public class DynamicObjectController : MonoBehaviour
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)
     {
-        if (number > upperLimit || number < lowerLimit) {
+        if (number > upperLimit || number < lowerLimit)
+        {
             return -_bounceMultiplier * target;
         }
         return target;
@@ -30,7 +31,8 @@ public class DynamicObjectController : MonoBehaviour
 
     float EnsureNumberIsWithin(float number, float lowerLimit, float upperLimit, float margin)
     {
-        if (number > upperLimit || number < lowerLimit) {
+        if (number > upperLimit || number < lowerLimit)
+        {
             return Mathf.Clamp(number, lowerLimit+margin, upperLimit-margin);
         }
         return number;

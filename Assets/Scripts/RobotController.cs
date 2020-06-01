@@ -59,25 +59,31 @@ public class RobotController : MonoBehaviour
         _rightTorque = 0;
         var direction = 0;
 
-        if (Input.GetKey(KeyCode.UpArrow)) {
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
             direction = 1;
         }
-        if (Input.GetKey(KeyCode.DownArrow)) {
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
             direction = -1;
         }
         _leftTorque = direction * FULL_TORQUE;
         _rightTorque = direction * FULL_TORQUE;
 
-        if (Input.GetKey(KeyCode.LeftArrow)) {
-            if (direction == 0) {
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (direction == 0)
+            {
                 _leftTorque = -FULL_TORQUE;
                 _rightTorque = FULL_TORQUE;
                 return;
             }
             _leftTorque = 0;
         }
-        if (Input.GetKey(KeyCode.RightArrow)) {
-            if (direction == 0) {
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            if (direction == 0)
+            {
                 _leftTorque = FULL_TORQUE;
                 _rightTorque = -FULL_TORQUE;
                 return;
@@ -88,7 +94,8 @@ public class RobotController : MonoBehaviour
 
     void Start()
     {
-        if (Port > 0) {
+        if (Port > 0)
+        {
             _socket = new UdpClient(Port);
             Debug.Log($"Listening for UDP packets on port: {Port}");
             ListenForUDP();
@@ -97,14 +104,17 @@ public class RobotController : MonoBehaviour
 
     void Update()
     {
-        if (Control == ControlDevices.ArrowKeys) {
+        if (Control == ControlDevices.ArrowKeys)
+        {
             ListenArrowKeys();
         }
 
-        foreach (WheelCollider wheelCollider in leftWheels) {
+        foreach (WheelCollider wheelCollider in leftWheels)
+        {
             wheelCollider.motorTorque = _leftTorque;
         }
-        foreach (WheelCollider wheelCollider in rightWheels) {
+        foreach (WheelCollider wheelCollider in rightWheels)
+        {
             wheelCollider.motorTorque = _rightTorque;
         }
     }
