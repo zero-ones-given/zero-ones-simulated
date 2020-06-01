@@ -15,7 +15,7 @@ public class ControlDevices
 
 public class RobotController : MonoBehaviour
 {
-    private const int FULL_TORQUE = 1;
+    private const int FULL_TORQUE = 5;
     public string Control;
     public int Port = 0;
 
@@ -33,15 +33,13 @@ public class RobotController : MonoBehaviour
 
     void ParseCommand(string command)
     {
-        var commandValues = command.Split(new Char[]{',', ';'});
+        var commandValues = command.Split(new char[]{',', ';'});
         if (commandValues.Length > 1)
         {
             Int32.TryParse(commandValues[0], out var leftCommand);
             Int32.TryParse(commandValues[1], out var rightCommand);
-            var scaledLeftCommand = Utils.Map(leftCommand, -255, 255, -FULL_TORQUE, FULL_TORQUE);
-            var scaledRightCommand = Utils.Map(rightCommand, -255, 255, -FULL_TORQUE, FULL_TORQUE);
-            _leftTorque = Mathf.Clamp(scaledLeftCommand, -FULL_TORQUE, FULL_TORQUE);
-            _rightTorque = Mathf.Clamp(scaledRightCommand, -FULL_TORQUE, FULL_TORQUE);
+            _leftTorque = Utils.MapAndLimit(leftCommand, -255, 255, -FULL_TORQUE, FULL_TORQUE);
+            _rightTorque = Utils.MapAndLimit(rightCommand, -255, 255, -FULL_TORQUE, FULL_TORQUE);
         }
     }
 
