@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2902250681331074106}
   - component: {fileID: 7871282044282684657}
   - component: {fileID: 7871282044282684658}
+  - component: {fileID: 3061266906855531167}
   m_Layer: 0
   m_Name: TrafficCone
   m_TagString: Untagged
@@ -63,6 +64,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: ab21a446c127c4f30a5909a1340f3630, type: 3}
+--- !u!114 &3061266906855531167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2170036034904602153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e4f8c3e3dbf4ec7a6acca71124c686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5625504911739442100
 GameObject:
   m_ObjectHideFlags: 0
