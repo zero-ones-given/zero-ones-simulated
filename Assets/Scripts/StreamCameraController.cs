@@ -25,7 +25,8 @@ public class StreamCameraController : MonoBehaviour
 
     void Update()
     {
-        if (_stopWatch.Elapsed.Milliseconds > 66) {
+        if (_stopWatch.Elapsed.Milliseconds > 66)
+        {
             RenderFrame();
             _stopWatch.Reset();
             _stopWatch.Start();
@@ -45,7 +46,6 @@ public class StreamCameraController : MonoBehaviour
         RenderTexture.active = null;
         Destroy(renderTexture);
 
-        var fileData = screenShot.EncodeToJPG();
-        _videoServer.LatestFrame = fileData;
+        _videoServer.LatestFrame = screenShot.EncodeToJPG();
     }
 }
