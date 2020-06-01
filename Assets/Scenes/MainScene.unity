@@ -277,8 +277,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ecd0ff5ef6d4d06af4a379919838b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  captureWidth: 1080
-  captureHeight: 1080
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,13 +598,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f65903ddadc194c74a7de341855aaa4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballPrefab: {fileID: 3418304847733920083, guid: ad3f762a6e51644c88d4567432d62259,
+  BallPrefab: {fileID: 3418304847733920083, guid: ad3f762a6e51644c88d4567432d62259,
     type: 3}
-  robotPrefab: {fileID: 5821532612884664336, guid: d5f8bd1a5a1714366a6b45617152fb0f,
+  RobotPrefab: {fileID: 5821532612884664336, guid: d5f8bd1a5a1714366a6b45617152fb0f,
     type: 3}
-  trafficConePrefab: {fileID: 2170036034904602153, guid: 42a776e2539b74894b0468a789815826,
+  TrafficConePrefab: {fileID: 2170036034904602153, guid: 42a776e2539b74894b0468a789815826,
     type: 3}
-  cubePrefab: {fileID: 1067039452962614377, guid: 822f7a6b967cc413c82ff086edeefc27,
+  CubePrefab: {fileID: 1067039452962614377, guid: 822f7a6b967cc413c82ff086edeefc27,
     type: 3}
 --- !u!1 &1539046935
 GameObject:
