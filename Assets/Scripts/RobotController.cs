@@ -9,52 +9,57 @@ using System.Threading;
 public class ControlDevices
 {
     public static string ArrowKeys = "arrows";
-    public static string UDP = "udp";
+    public static string WasdKeys = "wasd";
+    public static string Random = "random";
 }
 
 public class RobotController : MonoBehaviour
 {
-    public const int FullThrottle = 7;
-    public string control = ControlDevices.UDP;
-    public int port = 0;
+    private const int FULL_TORQUE = 1;
+    public string Control;
+    public int Port = 0;
 
     public WheelCollider[] rightWheels;
     public WheelCollider[] leftWheels;
-    Thread receiveThread;
-    UdpClient socket;
-    int leftTorque = 0;
-    int rightTorque = 0;
+    Thread _receiveThread;
+    UdpClient _socket;
+    private float _leftTorque = 0;
+    private float _rightTorque = 0;
 
     void ListenForUDP()
     {
-        socket.BeginReceive(new AsyncCallback(ReceiveData), new {});
+        _socket.BeginReceive(new AsyncCallback(ReceiveData), new {});
     }
 
     void ParseCommand(string command)
     {
-        string[] commandValues = command.Split(',');
-        if (commandValues.Length == 2)
+        var commandValues = command.Split(new Char[]{',', ';'});
+        if (commandValues.Length > 1)
         {
-            Int32.TryParse(commandValues[0], out leftTorque);
-            Int32.TryParse(commandValues[1], out rightTorque);
+            Int32.TryParse(commandValues[0], out var leftCommand);
+            Int32.TryParse(commandValues[1], out var rightCommand);
+            var scaledLeftCommand = Utils.Map(leftCommand, -255, 255, -FULL_TORQUE, FULL_TORQUE);
+            var scaledRightCommand = Utils.Map(rightCommand, -255, 255, -FULL_TORQUE, FULL_TORQUE);
+            _leftTorque = Mathf.Clamp(scaledLeftCommand, -FULL_TORQUE, FULL_TORQUE);
+            _rightTorque = Mathf.Clamp(scaledRightCommand, -FULL_TORQUE, FULL_TORQUE);
         }
     }
 
     void ReceiveData(IAsyncResult result)
     {
-        IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
-        byte[] data = socket.EndReceive(result, ref anyIP);
-        string command = Encoding.UTF8.GetString(data);
-        Debug.Log("Recieved: " + command);
+        var anyIP = new IPEndPoint(IPAddress.Any, 0);
+        var data = _socket.EndReceive(result, ref anyIP);
+        var command = Encoding.UTF8.GetString(data);
+        Debug.Log($"Recieved upd message: {command}");
         ParseCommand(command);
         ListenForUDP();
     }
 
     void ListenArrowKeys()
     {
-        leftTorque = 0;
-        rightTorque = 0;
-        int direction = 0;
+        _leftTorque = 0;
+        _rightTorque = 0;
+        var direction = 0;
 
         if (Input.GetKey(KeyCode.UpArrow)) {
             direction = 1;
@@ -62,47 +67,47 @@ public class RobotController : MonoBehaviour
         if (Input.GetKey(KeyCode.DownArrow)) {
             direction = -1;
         }
-        leftTorque = direction * FullThrottle;
-        rightTorque = direction * FullThrottle;
+        _leftTorque = direction * FULL_TORQUE;
+        _rightTorque = direction * FULL_TORQUE;
 
         if (Input.GetKey(KeyCode.LeftArrow)) {
             if (direction == 0) {
-                leftTorque = -FullThrottle;
-                rightTorque = FullThrottle;
+                _leftTorque = -FULL_TORQUE;
+                _rightTorque = FULL_TORQUE;
                 return;
             }
-            leftTorque = 0;
+            _leftTorque = 0;
         }
         if (Input.GetKey(KeyCode.RightArrow)) {
             if (direction == 0) {
-                leftTorque = FullThrottle;
-                rightTorque = -FullThrottle;
+                _leftTorque = FULL_TORQUE;
+                _rightTorque = -FULL_TORQUE;
                 return;
             }
-            rightTorque = 0;
+            _rightTorque = 0;
         }
     }
 
     void Start()
     {
-        if (port > 0) {
-            socket = new UdpClient(port);
-            Debug.Log("Listening for UDP packets on port: " + port);
+        if (Port > 0) {
+            _socket = new UdpClient(Port);
+            Debug.Log($"Listening for UDP packets on port: {Port}");
             ListenForUDP();
         }
     }
 
     void Update()
     {
-        if (control == "arrows") {
+        if (Control == ControlDevices.ArrowKeys) {
             ListenArrowKeys();
         }
 
         foreach (WheelCollider wheelCollider in leftWheels) {
-            wheelCollider.motorTorque = leftTorque;
+            wheelCollider.motorTorque = _leftTorque;
         }
         foreach (WheelCollider wheelCollider in rightWheels) {
-            wheelCollider.motorTorque = rightTorque;
+            wheelCollider.motorTorque = _rightTorque;
         }
     }
 }

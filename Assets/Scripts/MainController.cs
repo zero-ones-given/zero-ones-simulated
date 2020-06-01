@@ -5,10 +5,10 @@ using System.Threading;
 
 public class MainController : MonoBehaviour
 {
-    public GameObject ballPrefab;
-    public GameObject robotPrefab;
-    public GameObject trafficConePrefab;
-    public GameObject cubePrefab;
+    public GameObject BallPrefab;
+    public GameObject RobotPrefab;
+    public GameObject TrafficConePrefab;
+    public GameObject CubePrefab;
 
     void SpawnDynamicObjects(DynamicObject[] dynamicObjects)
     {
@@ -16,37 +16,43 @@ public class MainController : MonoBehaviour
             SpawnDynamicObject(dynamicObject);
         }
     }
+
     GameObject SpawnPrefab(GameObject prefab, Vector3 position, string hexColor)
     {
-        GameObject newObject = Instantiate(prefab);
+        var newObject = Instantiate(prefab);
         newObject.transform.position = position;
-        Color color = new Color(1, 1, 1);
+        var color = new Color(1, 1, 1);
         ColorUtility.TryParseHtmlString(hexColor, out color);
-        MeshRenderer renderer = newObject.GetComponent<MeshRenderer>();
-        if (renderer) {
+        var renderer = newObject.GetComponent<MeshRenderer>();
+        if (renderer)
+        {
             renderer.material.color = color;
         }
         return newObject;
     }
-    GameObject GetPrefab(string type) {
+
+    GameObject GetPrefab(string type)
+    {
         switch (type)
         {
             case "traffic-cone":
-                return trafficConePrefab;
+                return TrafficConePrefab;
             case "cube":
-                return cubePrefab;
+                return CubePrefab;
+            default:
+                return BallPrefab;
         }
-        return ballPrefab;
     }
+
     void SpawnDynamicObject(DynamicObject dynamicObject)
     {
-        Vector3 position = new Vector3(
+        var position = new Vector3(
             dynamicObject.position[0],
             dynamicObject.position[1],
             dynamicObject.position[2]
         );
-        GameObject prefab = GetPrefab(dynamicObject.type);
-        GameObject newObject = SpawnPrefab(prefab, position, dynamicObject.color);
+        var prefab = GetPrefab(dynamicObject.type);
+        var newObject = SpawnPrefab(prefab, position, dynamicObject.color);
         newObject.GetComponent<Rigidbody>().mass = dynamicObject.mass;
         newObject.transform.localScale = new Vector3(
             dynamicObject.size,
@@ -55,57 +61,59 @@ public class MainController : MonoBehaviour
         );
 
     }
+
     Texture2D LoadTexture(string filePath)
     {
-        Texture2D texture = new Texture2D(256, 256);
-        byte[] image;
-        string absolutePath = $"{Application.dataPath}/{filePath}".Replace('/', Path.DirectorySeparatorChar);
+        var texture = new Texture2D(256, 256);
+        var absolutePath = $"{Application.dataPath}/{filePath}".Replace('/', Path.DirectorySeparatorChar);
 
-        if (File.Exists(absolutePath)) {
-            image = File.ReadAllBytes(absolutePath);
+        if (File.Exists(absolutePath))
+        {
+            var image = File.ReadAllBytes(absolutePath);
             texture.LoadImage(image);
         }
         return texture;
     }
+
     void SpawnRobots(Robot[] robots)
     {
-        foreach(Robot robot in robots) {
+        foreach (Robot robot in robots) {
             SpawnRobot(robot);
         }
     }
+
     void SpawnRobot(Robot robot)
     {
         Vector3 position = new Vector3(robot.position[0], robot.position[1], robot.position[2]);
-        GameObject newRobot = SpawnPrefab(robotPrefab, position, robot.color);
+        var newRobot = SpawnPrefab(RobotPrefab, position, robot.color);
         newRobot.transform
             .Find("Marker")
             .GetComponent<Renderer>().material.mainTexture = LoadTexture(robot.marker);
 
-        if (robot.position.Length == 4) {
+        if (robot.position.Length == 4)
+        {
             newRobot.transform.rotation = Quaternion.Euler(0, robot.position[3], 0);
         }
-        string[] controlParts = robot.control.Split(':');
+        var controlParts = robot.control.Split(':');
         RobotController robotController = newRobot.GetComponent<RobotController>();
-        robotController.control = controlParts[0];
-        if (controlParts.Length == 2) {
-            int port;
-            Int32.TryParse(controlParts[1], out port);
-            robotController.port = port;
+        robotController.Control = controlParts[0];
+        if (controlParts.Length == 2)
+        {
+            Int32.TryParse(controlParts[1], out var port);
+            robotController.Port = port;
         }
     }
 
     void Start()
     {
-        string jsonString = File.ReadAllText("./configuration.json");
-        Configuration configuration = JsonUtility.FromJson<Configuration>(jsonString);
+        var jsonString = File.ReadAllText("./configuration.json");
+        var configuration = JsonUtility.FromJson<Configuration>(jsonString);
 
         Time.timeScale = configuration.timeScale;
         QualitySettings.SetQualityLevel(configuration.quality, true);
 
         SpawnDynamicObjects(configuration.dynamicObjects);
         SpawnRobots(configuration.robots);
-
-        new VideoServer().Start();
     }
 
     void Update ()

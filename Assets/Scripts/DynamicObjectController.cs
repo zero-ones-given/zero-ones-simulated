@@ -1,18 +1,29 @@
 ﻿using UnityEngine;
 
+/*
+    This controller makes sure the objects bounce back instead of going through 
+    the arena walls when moving too fast for the collisions Unity calculates.
+*/
 public class DynamicObjectController : MonoBehaviour
 {
-    float bounceMultiplier = 0.8f;
-    Rigidbody dynamicObject;
+    float _bounceMultiplier = 0.8f;
+    Rigidbody _dynamicObject;
+
     void Start()
     {
-        dynamicObject = GetComponent<Rigidbody>();
+        _dynamicObject = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, 2f, 4f, 2f);
+        _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, 2f, 6f, 2f, 0.1f);
     }
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)
     {
         if (number > upperLimit || number < lowerLimit) {
-            return -bounceMultiplier * target;
+            return -_bounceMultiplier * target;
         }
         return target;
     }
@@ -27,7 +38,7 @@ public class DynamicObjectController : MonoBehaviour
 
     Vector3 FlipVelocityIfOver(Rigidbody body, float xLimit, float yLimit, float zLimit)
     {
-        Vector3 position = body.transform.position;
+        var position = body.transform.position;
         return new Vector3(
             FlipIfOver(body.velocity.x, position.x, -xLimit, xLimit),
             FlipIfOver(body.velocity.y, position.y, 0, yLimit),
@@ -42,11 +53,5 @@ public class DynamicObjectController : MonoBehaviour
             EnsureNumberIsWithin(position.y, 0, yLimit, margin),
             EnsureNumberIsWithin(position.z, -zLimit, zLimit, margin)
         );
-    }
-
-    void Update()
-    {
-        dynamicObject.velocity = FlipVelocityIfOver(dynamicObject, 2f, 4f, 2f);
-        dynamicObject.transform.position = EnsurePositionIsWithin(dynamicObject.transform.position, 2f, 6f, 2f, 0.1f);
     }
 }
