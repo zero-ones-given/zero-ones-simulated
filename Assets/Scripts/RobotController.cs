@@ -55,22 +55,32 @@ public class RobotController : MonoBehaviour
 
     void ListenArrowKeys()
     {
+        ListenKeys(KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow);
+    }
+
+    void ListenWasdKeys()
+    {
+        ListenKeys(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
+    }
+
+    void ListenKeys(KeyCode up, KeyCode left, KeyCode down, KeyCode right)
+    {
         _leftTorque = 0;
         _rightTorque = 0;
         var direction = 0;
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(up))
         {
             direction = 1;
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(down))
         {
             direction = -1;
         }
         _leftTorque = direction * FULL_TORQUE;
         _rightTorque = direction * FULL_TORQUE;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(left))
         {
             if (direction == 0)
             {
@@ -80,7 +90,7 @@ public class RobotController : MonoBehaviour
             }
             _leftTorque = 0;
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(right))
         {
             if (direction == 0)
             {
@@ -107,6 +117,10 @@ public class RobotController : MonoBehaviour
         if (Control == ControlDevices.ArrowKeys)
         {
             ListenArrowKeys();
+        }
+        if (Control == ControlDevices.WasdKeys)
+        {
+            ListenWasdKeys();
         }
 
         foreach (WheelCollider wheelCollider in leftWheels)
