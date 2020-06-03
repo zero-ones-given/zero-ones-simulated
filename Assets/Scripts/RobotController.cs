@@ -25,6 +25,7 @@ public class RobotController : MonoBehaviour
     UdpClient _socket;
     private float _leftTorque = 0;
     private float _rightTorque = 0;
+    private float _lastUpdate = 0;
 
     void ListenForUDP()
     {
@@ -102,6 +103,15 @@ public class RobotController : MonoBehaviour
         }
     }
 
+    void RandomControl() {
+        if (Time.time - _lastUpdate > 2)
+        {
+            _leftTorque = UnityEngine.Random.Range(-FULL_TORQUE, FULL_TORQUE);
+            _rightTorque = UnityEngine.Random.Range(-FULL_TORQUE, FULL_TORQUE);
+            _lastUpdate = Time.time;
+        }
+    }
+
     void Start()
     {
         if (Port > 0)
@@ -121,6 +131,9 @@ public class RobotController : MonoBehaviour
         if (Control == ControlDevices.WasdKeys)
         {
             ListenWasdKeys();
+        }
+        if (Control == ControlDevices.Random) {
+            RandomControl();
         }
 
         foreach (WheelCollider wheelCollider in leftWheels)
