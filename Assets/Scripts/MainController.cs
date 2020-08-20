@@ -9,6 +9,7 @@ public class MainController : MonoBehaviour
     public GameObject RobotPrefab;
     public GameObject TrafficConePrefab;
     public GameObject CubePrefab;
+    public GameObject StreamCamera;
 
     void SpawnDynamicObjects(DynamicObject[] dynamicObjects)
     {
@@ -106,6 +107,11 @@ public class MainController : MonoBehaviour
         }
     }
 
+    void SetCameraOptions(Configuration configuration) {
+        StreamCameraController cameraController = StreamCamera.GetComponent<StreamCameraController>();
+        cameraController.FrameInterval = 1f / configuration.streamFPS;
+    }
+
     void Start()
     {
         var jsonString = File.ReadAllText("./configuration.json");
@@ -116,6 +122,7 @@ public class MainController : MonoBehaviour
 
         SpawnDynamicObjects(configuration.dynamicObjects);
         SpawnRobots(configuration.robots);
+        SetCameraOptions(configuration);
     }
 
     void Update ()
@@ -149,6 +156,7 @@ public class Configuration
 {
     public int quality;
     public float timeScale; 
+    public int streamFPS;
     public Robot[] robots;
     public DynamicObject[] dynamicObjects;
 }
