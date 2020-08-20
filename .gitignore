@@ -5,7 +5,7 @@
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
-/[Bb]uild/
+/[Bb]uild/*
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
@@ -60,3 +60,7 @@ crashlytics-build.properties
 
 # Additional (not Unity related) files
 **/*.DS_Store
+
+# Add specific files from the build folder
+!/Build/configuration.json
+!/Build/Images

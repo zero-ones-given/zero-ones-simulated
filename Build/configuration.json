@@ -1,0 +1,113 @@
+{
+  "quality": 5,
+  "timeScale": 1,
+  "streamFPS": 20,
+  "streamResolution": 1080,
+  "robots": [
+    {
+      "marker": "../../Images/aruco-0.png",
+      "color": "#ff0000",
+      "control": "arrows",
+      "position": [0, 0.2, -1.8, 0]
+    },
+    {
+      "marker": "../../Images/aruco-1.png",
+      "color": "#0000ff",
+      "control": "udp:3002",
+      "position": [0, 0.2, 1.8, 180]
+    }
+  ],
+  "dynamicObjects": [
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [1.4, 0.4, 0.8],
+      "mass": 0.01,
+      "size": 0.1
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [0, 0.6, 0.8],
+      "mass": 0.01,
+      "size": 0.1
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [-1.4, 0.6, 0.8],
+      "mass": 0.01,
+      "size": 0.1
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [1.4, 1, -0.8],
+      "mass": 0.01,
+      "size": 0.08
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [0, 1.2, -0.8],
+      "mass": 0.01,
+      "size": 0.1
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [-1.4, 1.2, -0.8],
+      "mass": 0.01,
+      "size": 0.1
+    },
+    {
+      "type": "cube",
+      "color": "#0055ff",
+      "position": [-1.4, 1.4, -1.4],
+      "mass": 2,
+      "size": 0.45
+    },
+    {
+      "type": "cube",
+      "color": "#0055ff",
+      "position": [-0.6, 1.4, 0.2],
+      "mass": 0.01,
+      "size": 0.2
+    },
+    {
+      "type": "cube",
+      "color": "#0055ff",
+      "position": [0.2, 1.4, -0.8],
+      "mass": 0.01,
+      "size": 0.1
+    },
+    {
+      "type": "traffic-cone",
+      "color": null,
+      "position": [0.8, 1, 0.8],
+      "mass": 0.2,
+      "size": 1
+    },
+    {
+      "type": "traffic-cone",
+      "color": null,
+      "position": [-0.8, 1.1, 0.8],
+      "mass": 0.2,
+      "size": 1
+    },
+    {
+      "type": "traffic-cone",
+      "color": null,
+      "position": [0.8, 1.2, -0.8],
+      "mass": 0.2,
+      "size": 1
+    },
+    {
+      "type": "traffic-cone",
+      "color": null,
+      "position": [-0.8, 1.3, -0.8],
+      "mass": 0.2,
+      "size": 1
+    }
+  ]
+}
