@@ -2,6 +2,7 @@
   "quality": 5,
   "timeScale": 1,
   "streamFPS": 20,
+  "streamResolution": 1080,
   "robots": [
     {
       "marker": "../Images/aruco-0.png",

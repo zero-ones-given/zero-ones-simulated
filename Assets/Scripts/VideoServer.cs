@@ -14,6 +14,7 @@ class VideoServer
     public float LatestFrameAt = 0;
     private float _latestStartedFrameTimestamp = -1;
     public float latestSentFrameTimestamp = -1;
+    public uint Resolution = 400;
 
     public void Start()
     {
@@ -65,7 +66,7 @@ class VideoServer
                     {
                         _latestStartedFrameTimestamp = LatestFrameAt;
                         
-                        var encodedFrame = ImageConversion.EncodeArrayToJPG(LatestFrame, GraphicsFormat.B8G8R8A8_UNorm, 1080, 1080);
+                        var encodedFrame = ImageConversion.EncodeArrayToJPG(LatestFrame, GraphicsFormat.B8G8R8A8_UNorm, Resolution, Resolution);
 
                         WriteString(GetImageHeaders(encodedFrame), stream);
                         stream.Write(encodedFrame, 0, encodedFrame.Length);

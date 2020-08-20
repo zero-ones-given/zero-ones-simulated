@@ -9,8 +9,7 @@ using System.Threading;
 public class StreamCameraController : MonoBehaviour
 {
     public float FrameInterval = 1f / 10;
-    private int _captureWidth = 1080;
-    private int _captureHeight = 1080;
+    public int Resolution = 400;
 
     private Camera _streamCamera;
     private VideoServer _videoServer;
@@ -28,13 +27,14 @@ public class StreamCameraController : MonoBehaviour
         if (Time.time - _lastFrameAt > FrameInterval)
         {
             _lastFrameAt = Time.time;
-            var tempRT = RenderTexture.GetTemporary(_captureWidth, _captureHeight); 
+            var tempRT = RenderTexture.GetTemporary(Resolution, Resolution);
             Graphics.Blit(source, tempRT);
 
-            var tempTex = new Texture2D(_captureWidth, _captureHeight, TextureFormat.RGBA32, false);
-            tempTex.ReadPixels(new Rect(0, 0, _captureWidth, _captureHeight), 0, 0, false);
+            var tempTex = new Texture2D(Resolution, Resolution, TextureFormat.RGBA32, false);
+            tempTex.ReadPixels(new Rect(0, 0, Resolution, Resolution), 0, 0, false);
             tempTex.Apply();
 
+            _videoServer.Resolution = (uint) Resolution;
             _videoServer.LatestFrame = tempTex.GetPixels32();
             _videoServer.LatestFrameAt = _lastFrameAt;
 

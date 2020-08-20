@@ -110,6 +110,7 @@ public class MainController : MonoBehaviour
     void SetCameraOptions(Configuration configuration) {
         StreamCameraController cameraController = StreamCamera.GetComponent<StreamCameraController>();
         cameraController.FrameInterval = 1f / configuration.streamFPS;
+        cameraController.Resolution = configuration.streamResolution;
     }
 
     void Start()
@@ -120,6 +121,7 @@ public class MainController : MonoBehaviour
         Time.timeScale = configuration.timeScale;
         QualitySettings.SetQualityLevel(configuration.quality, true);
 
+        Screen.SetResolution(configuration.streamResolution, configuration.streamResolution, false);
         SpawnDynamicObjects(configuration.dynamicObjects);
         SpawnRobots(configuration.robots);
         SetCameraOptions(configuration);
@@ -157,6 +159,7 @@ public class Configuration
     public int quality;
     public float timeScale; 
     public int streamFPS;
+    public int streamResolution;
     public Robot[] robots;
     public DynamicObject[] dynamicObjects;
 }
