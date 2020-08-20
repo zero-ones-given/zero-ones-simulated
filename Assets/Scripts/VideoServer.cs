@@ -1,13 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using System;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
- 
+using System.Runtime.InteropServices;
+
+
 class VideoServer
 {
-    public byte[] LatestFrame = {};
+    public Color32[] LatestFrame = {};
+    public float LatestFrameAt = 0;
+    private float _latestStartedFrameTimestamp = -1;
+    public float latestSentFrameTimestamp = -1;
 
     public void Start()
     {
@@ -55,10 +61,18 @@ class VideoServer
             {
                 try
                 {
-                    WriteString(GetImageHeaders(LatestFrame), stream);
-                    stream.Write(LatestFrame, 0, LatestFrame.Length);
-                    WriteString("\r\n", stream);
-                    Thread.Sleep(66);
+                    if (_latestStartedFrameTimestamp < LatestFrameAt)
+                    {
+                        _latestStartedFrameTimestamp = LatestFrameAt;
+                        
+                        var encodedFrame = ImageConversion.EncodeArrayToJPG(LatestFrame, GraphicsFormat.B8G8R8A8_UNorm, 1080, 1080);
+
+                        WriteString(GetImageHeaders(encodedFrame), stream);
+                        stream.Write(encodedFrame, 0, encodedFrame.Length);
+                        WriteString("\r\n", stream);
+                        latestSentFrameTimestamp = _latestStartedFrameTimestamp;
+                    }
+                    Thread.Sleep(5);
                 }
                 catch (Exception ex)
                 {

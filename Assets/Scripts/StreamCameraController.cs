@@ -1,51 +1,54 @@
-﻿using UnityEngine;
+﻿using Unity.Collections;
+using UnityEngine;
+using UnityEngine.Rendering;
+
 using System;
 using System.IO;
 using System.Threading;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 public class StreamCameraController : MonoBehaviour
 {
+    public const float FRAME_INTERVAL = 1f / 20;
     private int _captureWidth = 1080;
     private int _captureHeight = 1080;
 
     private Camera _streamCamera;
     private VideoServer _videoServer;
+    private float _lastFrameAt = 0;
     private Stopwatch _stopWatch;
 
     void Start()
     {
         _streamCamera = this.GetComponent<Camera>();
-        _streamCamera.enabled = false;
         _videoServer = new VideoServer();
         _videoServer.Start();
         _stopWatch = new Stopwatch();
-        _stopWatch.Start();
     }
 
-    void Update()
+    void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (_stopWatch.Elapsed.Milliseconds > 66)
+        if (Time.time - _lastFrameAt > FRAME_INTERVAL)
         {
-            RenderFrame();
             _stopWatch.Reset();
             _stopWatch.Start();
+            _lastFrameAt = Time.time;
+            var tempRT = RenderTexture.GetTemporary(_captureWidth, _captureHeight); 
+            Graphics.Blit(source, tempRT);
+
+            var tempTex = new Texture2D(_captureWidth, _captureHeight, TextureFormat.RGBA32, false);
+            tempTex.ReadPixels(new Rect(0, 0, _captureWidth, _captureHeight), 0, 0, false);
+            tempTex.Apply();
+
+
+            _videoServer.LatestFrame = tempTex.GetPixels32();
+            UnityEngine.Debug.Log($"Getting pixels took: {_stopWatch.ElapsedMilliseconds} ms");
+            _videoServer.LatestFrameAt = _lastFrameAt;
+
+            Destroy(tempTex);
+            RenderTexture.ReleaseTemporary(tempRT);
         }
-    }
-
-    void RenderFrame()
-    {
-        RenderTexture renderTexture = new RenderTexture(_captureWidth, _captureHeight, 24);
-        Texture2D screenShot = new Texture2D(_captureWidth, _captureHeight, TextureFormat.RGB24, false);
-        _streamCamera.targetTexture = renderTexture;
-        _streamCamera.Render();
-        RenderTexture.active = renderTexture;
-        screenShot.ReadPixels(new Rect(0, 0, _captureWidth, _captureHeight), 0, 0);
-
-        _streamCamera.targetTexture = null;
-        RenderTexture.active = null;
-        Destroy(renderTexture);
-
-        _videoServer.LatestFrame = screenShot.EncodeToJPG();
+        Graphics.Blit(source, destination);
     }
 }
