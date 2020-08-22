@@ -15,7 +15,7 @@ public class ControlDevices
 
 public class RobotController : MonoBehaviour
 {
-    private const int FULL_TORQUE = 5;
+    private const int FULL_TORQUE = 3;
     public string Control;
     public int Port = 0;
 

@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612476886618}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.135, y: -0.021400005, z: -0.078}
+  m_LocalPosition: {x: -0.05, y: -0.021400005, z: -0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5821532612884664340}
@@ -39,7 +39,7 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612476886618}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.05
+  m_Radius: 0.04
   m_SuspensionSpring:
     spring: 350
     damper: 45
@@ -86,7 +86,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612609269383}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.135, y: -0.021400005, z: 0.084}
+  m_LocalPosition: {x: 0.05, y: -0.021400005, z: 0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5821532612884664340}
@@ -100,7 +100,7 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612609269383}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.05
+  m_Radius: 0.04
   m_SuspensionSpring:
     spring: 350
     damper: 45
@@ -148,8 +148,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612702030144}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.055, z: 0}
-  m_LocalScale: {x: 0.012, y: 1, z: 0.012}
+  m_LocalPosition: {x: 0, y: 0.041, z: 0}
+  m_LocalScale: {x: 0.01, y: 1, z: 0.01}
   m_Children: []
   m_Father: {fileID: 5821532612884664340}
   m_RootOrder: 4
@@ -177,6 +177,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -201,6 +202,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5821532612775326693
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612775326693}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.135, y: -0.021400005, z: 0.084}
+  m_LocalPosition: {x: -0.05, y: -0.021400005, z: 0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5821532612884664340}
@@ -240,7 +242,7 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612775326693}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.05
+  m_Radius: 0.04
   m_SuspensionSpring:
     spring: 350
     damper: 45
@@ -287,7 +289,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612877872976}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.135, y: -0.0214, z: -0.078}
+  m_LocalPosition: {x: 0.05, y: -0.0214, z: -0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5821532612884664340}
@@ -301,7 +303,7 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5821532612877872976}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.05
+  m_Radius: 0.04
   m_SuspensionSpring:
     spring: 350
     damper: 45
@@ -386,6 +388,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -410,6 +413,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &5821532612884664339
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -421,8 +425,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.08, z: 0.3}
-  m_Center: {x: 0, y: 0.005, z: 0}
+  m_Size: {x: 0.11, y: 0.09, z: 0.13}
+  m_Center: {x: 0, y: -0.01, z: 0}
 --- !u!54 &5821532612884664343
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -451,8 +455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d4a1857838046fdb71d2842bc408f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  control: arrows
-  port: 0
+  Control: 
+  Port: 0
   rightWheels:
   - {fileID: 5821532612609269433}
   - {fileID: 5821532612877872979}
