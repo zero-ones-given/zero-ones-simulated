@@ -8,6 +8,9 @@ public class DynamicObjectController : MonoBehaviour
 {
     float _bounceMultiplier = 0.8f;
     Rigidbody _dynamicObject;
+    float _arenaMaxX = 1.5f / 2;
+    float _arenaMaxY = 2;
+    float _arenaMaxZ = 1.5f / 2;
 
     void Start()
     {
@@ -16,8 +19,8 @@ public class DynamicObjectController : MonoBehaviour
 
     void Update()
     {
-        _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, 2f, 4f, 2f);
-        _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, 2f, 6f, 2f, 0.1f);
+        _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
+        _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, _arenaMaxX, _arenaMaxY, _arenaMaxZ, 0.1f);
     }
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)
