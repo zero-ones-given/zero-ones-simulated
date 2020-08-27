@@ -66,7 +66,7 @@ class VideoServer
                     {
                         _latestStartedFrameTimestamp = LatestFrameAt;
                         
-                        var encodedFrame = ImageConversion.EncodeArrayToJPG(LatestFrame, GraphicsFormat.B8G8R8A8_UNorm, Resolution, Resolution);
+                        var encodedFrame = ImageConversion.EncodeArrayToJPG(LatestFrame, GraphicsFormat.R8G8B8A8_UNorm, Resolution, Resolution);
 
                         WriteString(GetImageHeaders(encodedFrame), stream);
                         stream.Write(encodedFrame, 0, encodedFrame.Length);
