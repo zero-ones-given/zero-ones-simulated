@@ -18,13 +18,17 @@ public class StreamCameraController : MonoBehaviour
     void Start()
     {
         _streamCamera = this.GetComponent<Camera>();
+    }
+
+    public void StartVideoServer(int port)
+    {
         _videoServer = new VideoServer();
-        _videoServer.Start();
+        _videoServer.Start(port);
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (Time.time - _lastFrameAt > FrameInterval)
+        if (_videoServer != null && Time.time - _lastFrameAt > FrameInterval)
         {
             _lastFrameAt = Time.time;
             var tempRT = RenderTexture.GetTemporary(Resolution, Resolution);

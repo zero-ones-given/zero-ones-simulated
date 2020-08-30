@@ -3,6 +3,7 @@
   "timeScale": 1,
   "streamFPS": 20,
   "streamResolution": 1080,
+  "streamPort": 8080,
   "robots": [
     {
       "marker": "../Images/aruco-0.png",

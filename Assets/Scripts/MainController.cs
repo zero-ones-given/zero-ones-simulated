@@ -111,6 +111,7 @@ public class MainController : MonoBehaviour
         StreamCameraController cameraController = StreamCamera.GetComponent<StreamCameraController>();
         cameraController.FrameInterval = 1f / configuration.streamFPS;
         cameraController.Resolution = configuration.streamResolution;
+        cameraController.StartVideoServer(configuration.streamPort);
     }
 
     void Start()
@@ -160,6 +161,7 @@ public class Configuration
     public float timeScale; 
     public int streamFPS;
     public int streamResolution;
+    public int streamPort;
     public Robot[] robots;
     public DynamicObject[] dynamicObjects;
 }

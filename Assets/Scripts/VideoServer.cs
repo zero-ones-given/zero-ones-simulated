@@ -16,9 +16,8 @@ class VideoServer
     public float latestSentFrameTimestamp = -1;
     public uint Resolution = 400;
 
-    public void Start()
+    public void Start(int port = 8080)
     {
-        const int port = 8080;
         Debug.Log($"Starting http server: {port}");
         var applicationPath = Application.dataPath;
 
