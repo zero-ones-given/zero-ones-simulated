@@ -4,7 +4,6 @@ using System;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 
 public class ControlDevices
 {
@@ -21,7 +20,6 @@ public class RobotController : MonoBehaviour
 
     public WheelCollider[] rightWheels;
     public WheelCollider[] leftWheels;
-    Thread _receiveThread;
     UdpClient _socket;
     private float _leftTorque = 0;
     private float _rightTorque = 0;

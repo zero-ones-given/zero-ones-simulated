@@ -2,6 +2,9 @@
 using System;
 using System.IO;
 using System.Threading;
+using System.Text;
+using System.Net;
+using System.Net.Sockets;
 
 public class MainController : MonoBehaviour
 {
@@ -10,19 +13,51 @@ public class MainController : MonoBehaviour
     public GameObject TrafficConePrefab;
     public GameObject CubePrefab;
     public GameObject StreamCamera;
+    UdpClient _socket;
+    string _command;
+    GameObject[] _dynamicObjects;
+    GameObject[] _robots;
+    Configuration _configuration;
 
-    void SpawnDynamicObjects(DynamicObject[] dynamicObjects)
+    void ListenForUDP()
     {
-        foreach(DynamicObject dynamicObject in dynamicObjects)
+        _socket.BeginReceive(new AsyncCallback(ReceiveData), new {});
+    }
+
+    void ReceiveData(IAsyncResult result)
+    {
+        var anyIP = new IPEndPoint(IPAddress.Any, 0);
+        var data = _socket.EndReceive(result, ref anyIP);
+        _command = Encoding.UTF8.GetString(data);
+        Debug.Log($"Main controller recieved upd message: {_command}");
+        ListenForUDP();
+    }
+
+    void ResetSimulation()
+    {
+        Debug.Log(_dynamicObjects.Length);
+        for (int index = 0; index < _dynamicObjects.Length; index++)
         {
-            SpawnDynamicObject(dynamicObject);
+            Debug.Log($"Resetting dynamic object {index}");
+            try
+            {
+                SetPosition(_dynamicObjects[index], _configuration.dynamicObjects[index].position);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log($"Encountered error: {ex.Message}");
+            }
+        }
+        for (int index = 0; index < _robots.Length; index++)
+        {
+            Debug.Log($"Resetting robot {index}");
+            SetPosition(_robots[index], _configuration.robots[index].position);
         }
     }
 
-    GameObject SpawnPrefab(GameObject prefab, Vector3 position, string hexColor)
+    GameObject SpawnPrefab(GameObject prefab, string hexColor)
     {
         var newObject = Instantiate(prefab);
-        newObject.transform.position = position;
         var color = new Color(1, 1, 1);
         ColorUtility.TryParseHtmlString(hexColor, out color);
         var renderer = newObject.GetComponent<MeshRenderer>();
@@ -45,23 +80,26 @@ public class MainController : MonoBehaviour
                 return BallPrefab;
         }
     }
-
-    void SpawnDynamicObject(DynamicObject dynamicObject)
+    void SpawnDynamicObjects(DynamicObject[] dynamicObjects)
     {
-        var position = new Vector3(
-            dynamicObject.position[0],
-            dynamicObject.position[1],
-            dynamicObject.position[2]
-        );
+        _dynamicObjects = new GameObject[dynamicObjects.Length];
+        for (int index = 0; index < dynamicObjects.Length; index++)
+        {
+            _dynamicObjects[index] = SpawnDynamicObject(dynamicObjects[index]);
+        }
+    }
+    GameObject SpawnDynamicObject(DynamicObject dynamicObject)
+    {
         var prefab = GetPrefab(dynamicObject.type);
-        var newObject = SpawnPrefab(prefab, position, dynamicObject.color);
+        var newObject = SpawnPrefab(prefab, dynamicObject.color);
         newObject.GetComponent<Rigidbody>().mass = dynamicObject.mass;
         newObject.transform.localScale = new Vector3(
             dynamicObject.size,
             dynamicObject.size,
             dynamicObject.size
         );
-
+        SetPosition(newObject, dynamicObject.position);
+        return newObject;
     }
 
     Texture2D LoadTexture(string filePath)
@@ -79,31 +117,41 @@ public class MainController : MonoBehaviour
 
     void SpawnRobots(Robot[] robots)
     {
-        foreach (Robot robot in robots)
+        _robots = new GameObject[robots.Length];
+        for (int index = 0; index < robots.Length; index++)
         {
-            SpawnRobot(robot);
+            _robots[index] = SpawnRobot(robots[index]);
         }
     }
 
-    void SpawnRobot(Robot robot)
+    GameObject SpawnRobot(Robot robot)
     {
-        Vector3 position = new Vector3(robot.position[0], robot.position[1], robot.position[2]);
-        var newRobot = SpawnPrefab(RobotPrefab, position, robot.color);
+        var newRobot = SpawnPrefab(RobotPrefab, robot.color);
         newRobot.transform
             .Find("Marker")
             .GetComponent<Renderer>().material.mainTexture = LoadTexture(robot.marker);
+        SetPosition(newRobot, robot.position);
 
-        if (robot.position.Length == 4)
-        {
-            newRobot.transform.rotation = Quaternion.Euler(0, robot.position[3], 0);
-        }
         var controlParts = robot.control.Split(':');
-        RobotController robotController = newRobot.GetComponent<RobotController>();
+        var robotController = newRobot.GetComponent<RobotController>();
         robotController.Control = controlParts[0];
         if (controlParts.Length == 2)
         {
             Int32.TryParse(controlParts[1], out var port);
             robotController.Port = port;
+        }
+        return newRobot;
+    }
+
+    void SetPosition(GameObject gameObject, float[] position)
+    {
+        var rigidbody = gameObject.GetComponent<Rigidbody>();
+        rigidbody.velocity = new Vector3(0,0,0);
+        rigidbody.angularVelocity = new Vector3(0,0,0);
+        gameObject.transform.position = new Vector3(position[0], position[1], position[2]);
+        if (position.Length == 4)
+        {
+            gameObject.transform.rotation = Quaternion.Euler(0, position[3], 0);
         }
     }
 
@@ -114,18 +162,28 @@ public class MainController : MonoBehaviour
         cameraController.StartVideoServer(configuration.streamPort);
     }
 
+    void StartUDPServer(int port) {
+        if (port > 0)
+        {
+            _socket = new UdpClient(port);
+            Debug.Log($"Listening for UDP packets on port: {port}");
+            ListenForUDP();
+        }
+    }
+
     void Start()
     {
         var jsonString = File.ReadAllText("./configuration.json");
-        var configuration = JsonUtility.FromJson<Configuration>(jsonString);
+        _configuration = JsonUtility.FromJson<Configuration>(jsonString);
 
-        Time.timeScale = configuration.timeScale;
-        QualitySettings.SetQualityLevel(configuration.quality, true);
+        Time.timeScale = _configuration.timeScale;
+        QualitySettings.SetQualityLevel(_configuration.quality, true);
 
-        Screen.SetResolution(configuration.streamResolution, configuration.streamResolution, false);
-        SpawnDynamicObjects(configuration.dynamicObjects);
-        SpawnRobots(configuration.robots);
-        SetCameraOptions(configuration);
+        Screen.SetResolution(_configuration.streamResolution, _configuration.streamResolution, false);
+        SpawnDynamicObjects(_configuration.dynamicObjects);
+        SpawnRobots(_configuration.robots);
+        SetCameraOptions(_configuration);
+        StartUDPServer(_configuration.controlPort);
     }
 
     void Update ()
@@ -133,6 +191,11 @@ public class MainController : MonoBehaviour
         if (Input.GetKey("escape"))
         {
             Application.Quit();
+        }
+        if (_command == "reset")
+        {
+            ResetSimulation();
+            _command = null;
         }
     }
 }
@@ -159,6 +222,7 @@ public class Configuration
 {
     public int quality;
     public float timeScale; 
+    public int controlPort;
     public int streamFPS;
     public int streamResolution;
     public int streamPort;

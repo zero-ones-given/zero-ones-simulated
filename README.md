@@ -23,3 +23,11 @@ Once you've built the project, you can use the configuration.json file to change
 | timeScale        | float   |
 | streamFPS        | integer |
 | streamResolution | integer |
+
+## Resetting the simulation
+You can reset the simulation by sending the command `reset` via UDP to the `controlPort` defined in the configuration (3000 by default). For example in Python you could do this:
+```
+import socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.sendto(bytes("reset", "utf-8"), ("127.0.0.1", 3000))
+```
