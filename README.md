@@ -8,11 +8,18 @@ A simple simulator for a robot arena
 - Once the simulator is running, you can get the overhead video feed (in [MJPEG format](https://en.wikipedia.org/wiki/Motion_JPEG)) from: [http://localhost:8080](http://localhost:8080)
 - You can control one of the robots with your keyboard (this is enabled in the default configuration for testing purposes)
 - You can control another robot by sending comma or semicolon delimited string of motor values as UDP packets to localhost port 3001 or 3002
+    - The values shoud be between 100 and -100
 - You can change the starting positions and control methods by editing the configuration.json
 
 To test out controlling the robot via UDP you can for example use the following command
 ```
-echo -n '255;-255' | nc -u 127.0.0.1 3002
+echo -n '100;-100' | nc -u 127.0.0.1 3002
+```
+Or in Python:
+```
+import socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.sendto(bytes("100;-100", "utf-8"), ("127.0.0.1", 3001))
 ```
 
 ## Configuration
