@@ -192,7 +192,7 @@ public class MainController : MonoBehaviour
         {
             Application.Quit();
         }
-        if (_command == "reset")
+        if (_command == "reset" || Input.GetKey("q"))
         {
             ResetSimulation();
             _command = null;
