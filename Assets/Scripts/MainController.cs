@@ -51,6 +51,7 @@ public class MainController : MonoBehaviour
         for (int index = 0; index < _robots.Length; index++)
         {
             Debug.Log($"Resetting robot {index}");
+            _robots[index].GetComponent<RobotController>().reset();
             SetPosition(_robots[index], _configuration.robots[index].position);
         }
     }

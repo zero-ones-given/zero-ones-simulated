@@ -25,6 +25,12 @@ public class RobotController : MonoBehaviour
     private float _rightTorque = 0;
     private float _lastUpdate = 0;
 
+    public void reset()
+    {
+        _leftTorque = 0;
+        _rightTorque = 0;
+    }
+
     void ListenForUDP()
     {
         _socket.BeginReceive(new AsyncCallback(ReceiveData), new {});
