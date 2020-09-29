@@ -45,7 +45,7 @@ public class RobotController : MonoBehaviour
 
     void ParseCommand(string command)
     {
-        var commandValues = command.Split(new char[]{',', ';'});
+        var commandValues = command.Split(';');
         if (commandValues.Length > 1)
         {
             Int32.TryParse(commandValues[0], out var leftCommand);
