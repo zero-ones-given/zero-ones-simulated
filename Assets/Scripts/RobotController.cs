@@ -14,7 +14,7 @@ public class ControlDevices
 
 public class RobotController : MonoBehaviour
 {
-    private const int FULL_TORQUE = 3;
+    private const float FULL_TORQUE = 3f;
     public string Control;
     public int Port = 0;
 
@@ -30,6 +30,19 @@ public class RobotController : MonoBehaviour
         _socket.BeginReceive(new AsyncCallback(ReceiveData), new {});
     }
 
+    float MapToRealWorldTorque(int commandTorque)
+    {
+        // the torque response in the real robot is not linear
+        // TODO: make more accurate measurements and improve this
+        // TODO: make the formula generic. This only (somewhat) works for the max torque value 3
+        var torque = Utils.MapAndLimit(commandTorque, -100, 100, -FULL_TORQUE, FULL_TORQUE);
+        var torqueSign = Math.Sign(commandTorque);
+        var toreuqValue = Math.Abs(torque);
+        toreuqValue = toreuqValue * 1.75f - 0.4f;
+        toreuqValue = Utils.Limit((float)toreuqValue, 0, FULL_TORQUE);
+        return torqueSign * toreuqValue;
+    }
+
     void ParseCommand(string command)
     {
         var commandValues = command.Split(new char[]{',', ';'});
@@ -37,8 +50,8 @@ public class RobotController : MonoBehaviour
         {
             Int32.TryParse(commandValues[0], out var leftCommand);
             Int32.TryParse(commandValues[1], out var rightCommand);
-            _leftTorque = Utils.MapAndLimit(leftCommand, -255, 255, -FULL_TORQUE, FULL_TORQUE);
-            _rightTorque = Utils.MapAndLimit(rightCommand, -255, 255, -FULL_TORQUE, FULL_TORQUE);
+            _leftTorque = MapToRealWorldTorque(leftCommand);
+            _rightTorque = MapToRealWorldTorque(rightCommand);
         }
     }
 
