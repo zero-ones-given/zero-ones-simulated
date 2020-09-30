@@ -4,7 +4,10 @@
 A simple simulator for a robot arena
 
 ## Quickstart
-- Build and run the Unity project
+- Build and run the Unity project or use one of the [pre built binaries](https://github.com/zero-ones-given/zero-ones-simulated-pre-built)
+    - If you run the project from the Unity editor, make sure to select 1080x1080 as your resolution
+    - The built version expects a configuration.json and Images folder in the same folder as the binary. You can copy them to the build folder from the root of the project.
+    - On MacOS the configuration.json relative image paths should be in the format: "../../Images/aruco-0.png" when the project is run as a standalone.
 - Once the simulator is running, you can get the overhead video feed (in [MJPEG format](https://en.wikipedia.org/wiki/Motion_JPEG)) from: [http://localhost:8080](http://localhost:8080)
 - You can control one of the robots with your keyboard (this is enabled in the default configuration for testing purposes)
 - You can control another robot by sending semicolon delimited string of motor values as UDP packets to localhost port 3001 or 3002
