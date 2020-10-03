@@ -8,25 +8,25 @@
   "robots": [
     {
       "marker": "../Images/aruco-0.png",
-      "color": "#ff0000",
+      "color": "#ffffff",
       "control": "arrows",
       "position": [0.42, 0.3, -0.22, 315]
     },
     {
       "marker": "../Images/aruco-1.png",
-      "color": "#ff0000",
+      "color": "#ffffff",
       "control": "wasd",
       "position": [0.22, 0.3, -0.42, 315]
     },
     {
       "marker": "../Images/aruco-2.png",
-      "color": "#0000ff",
+      "color": "#000000",
       "control": "udp:3001",
       "position": [-0.42, 0.3, 0.22, 135]
     },
     {
       "marker": "../Images/aruco-3.png",
-      "color": "#0000ff",
+      "color": "#000000",
       "control": "udp:3002",
       "position": [-0.22, 0.3, 0.42, 135]
     }

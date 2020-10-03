@@ -1,4 +1,4 @@
-![Screenshot](https://repository-images.githubusercontent.com/268081145/c5953400-e350-11ea-8386-185060a80f35)
+![Illustration](https://repository-images.githubusercontent.com/268081145/c5953400-e350-11ea-8386-185060a80f35)
 
 # Zero Ones Simulated
 A simple simulator for a robot arena
@@ -11,6 +11,9 @@ A simple simulator for a robot arena
     - The built version expects a configuration.json and Images folder in the same folder as the binary. You can copy them to the build folder from the root of the project.
     - On MacOS the configuration.json relative image paths should be in the format: "../../Images/aruco-0.png" when the project is run from the built binary.
 - Once the simulator is running, you can get the overhead video feed (in [MJPEG format](https://en.wikipedia.org/wiki/Motion_JPEG)) from: [http://localhost:8080](http://localhost:8080)
+
+![Screenshot](screenshot.jpg)
+
 - You can control one of the robots with your keyboard (this is enabled in the default configuration for testing purposes)
 - You can control another robot by sending semicolon delimited string of motor values as UDP packets to localhost port 3001 or 3002
     - The values shoud be between 100 and -100
@@ -64,7 +67,7 @@ Dynamic objects have the following properties
 | size             | float   | The size of the object in meters
 
 ## Resetting the simulation
-You can reset the simulation by pressing the q key or by sending the command `reset` via UDP to the `controlPort` defined in the configuration (3000 by default). For example in Python you could do this:
+You can reset the simulation by pressing the `q` key or by sending the command `reset` via UDP to the `controlPort` defined in the configuration (3000 by default). For example in Python you could do this:
 ```
 import socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
