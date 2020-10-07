@@ -47,17 +47,17 @@ WheelCollider:
   m_SuspensionDistance: 0.01
   m_ForceAppPointDistance: 0
   m_Mass: 0.2
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 0.4
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.4
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.4
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_Enabled: 1
@@ -108,17 +108,17 @@ WheelCollider:
   m_SuspensionDistance: 0.01
   m_ForceAppPointDistance: 0
   m_Mass: 0.2
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 0.4
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.4
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.4
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_Enabled: 1
@@ -250,17 +250,17 @@ WheelCollider:
   m_SuspensionDistance: 0.01
   m_ForceAppPointDistance: 0
   m_Mass: 0.2
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 0.4
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.4
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.4
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_Enabled: 1
@@ -311,17 +311,17 @@ WheelCollider:
   m_SuspensionDistance: 0.01
   m_ForceAppPointDistance: 0
   m_Mass: 0.2
-  m_WheelDampingRate: 0.25
+  m_WheelDampingRate: 0.4
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.4
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.4
+    m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
+    m_AsymptoteSlip: 0.4
     m_AsymptoteValue: 0.5
     m_Stiffness: 1
   m_Enabled: 1
@@ -425,8 +425,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.11, y: 0.09, z: 0.13}
-  m_Center: {x: 0, y: -0.01, z: 0}
+  m_Size: {x: 0.11, y: 0.08, z: 0.13}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5821532612884664343
 Rigidbody:
   m_ObjectHideFlags: 0
