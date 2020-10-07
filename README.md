@@ -11,6 +11,7 @@ A simple simulator for a robot arena
     - The built version expects a configuration.json and Images folder in the same folder as the binary. You can copy them to the build folder from the root of the project.
     - On MacOS the configuration.json relative image paths should be in the format: "../../Images/aruco-0.png" when the project is run from the built binary.
 - Once the simulator is running, you can get the overhead video feed (in [MJPEG format](https://en.wikipedia.org/wiki/Motion_JPEG)) from: [http://localhost:8080](http://localhost:8080)
+    - If you're using this simulator to prepare for the Micro Invaders competition, note that the video will be provided in a different format in the actual competition
 
 ![Screenshot](screenshot.jpg)
 
