@@ -14,7 +14,7 @@ public class ControlDevices
 
 public class RobotController : MonoBehaviour
 {
-    private const float FULL_TORQUE = 3f;
+    private const float FULL_TORQUE = 4.7f;
     public string Control;
     public int Port = 0;
 
@@ -44,7 +44,7 @@ public class RobotController : MonoBehaviour
         var torque = Utils.MapAndLimit(commandTorque, -100, 100, -FULL_TORQUE, FULL_TORQUE);
         var torqueSign = Math.Sign(commandTorque);
         var toreuqValue = Math.Abs(torque);
-        toreuqValue = toreuqValue * 1.75f - 0.4f;
+        toreuqValue = toreuqValue * 2.25f - 0.82f;
         toreuqValue = Utils.Limit((float)toreuqValue, 0, FULL_TORQUE);
         return torqueSign * toreuqValue;
     }
