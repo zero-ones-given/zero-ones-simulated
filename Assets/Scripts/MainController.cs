@@ -100,6 +100,7 @@ public class MainController : MonoBehaviour
             dynamicObject.size
         );
         SetPosition(newObject, dynamicObject.position);
+        newObject.GetComponent<DynamicObjectController>().isFlickering = dynamicObject.type == "flickering-ball";
         return newObject;
     }
 

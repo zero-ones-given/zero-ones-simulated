@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 /*
     This controller makes sure the objects bounce back instead of going through 
@@ -11,16 +12,33 @@ public class DynamicObjectController : MonoBehaviour
     float _arenaMaxX = 1.5f / 2;
     float _arenaMaxY = 2;
     float _arenaMaxZ = 1.5f / 2;
+    MeshRenderer _renderer;
+    Color _originalColor;
+    public bool isFlickering = false;
 
     void Start()
     {
         _dynamicObject = GetComponent<Rigidbody>();
+        _renderer = _dynamicObject.GetComponent<MeshRenderer>();
+        if (_renderer)
+        {
+            _originalColor = _renderer.material.color;
+        }
     }
 
     void Update()
     {
         _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
         _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, _arenaMaxX, _arenaMaxY, _arenaMaxZ, 0.1f);
+
+        if (isFlickering && _renderer)
+        {
+            if (Random.Range(0f, 1f) > 0.8f) {
+                _renderer.material.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0.1f);
+            } else {
+                _renderer.material.color = _originalColor;
+            }
+        }
     }
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)
