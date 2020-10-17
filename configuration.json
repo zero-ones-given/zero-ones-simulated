@@ -7,13 +7,13 @@
   "streamPort": 8080,
   "robots": [
     {
-      "marker": "../Images/aruco-0.png",
+      "marker": "../../Images/aruco-0.png",
       "color": "#ffffff",
       "control": "arrows",
       "position": [0.42, 0.3, -0.22, 315]
     },
     {
-      "marker": "../Images/aruco-1.png",
+      "marker": "../../Images/aruco-1.png",
       "color": "#ffffff",
       "control": "wasd",
       "position": [0.22, 0.3, -0.42, 315]
@@ -33,7 +33,7 @@
   ],
   "dynamicObjects": [
     {
-      "type": "flickering-ball",
+      "type": "ball",
       "color": "#ff00ff",
       "position": [0.6, 0.5, 0],
       "mass": 0.01,
