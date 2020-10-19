@@ -44,7 +44,7 @@ public class RobotController : MonoBehaviour
         var torque = Utils.MapAndLimit(commandTorque, -100, 100, -FULL_TORQUE, FULL_TORQUE);
         var torqueSign = Math.Sign(commandTorque);
         var toreuqValue = Math.Abs(torque);
-        toreuqValue = toreuqValue * 2.25f - 0.82f;
+        toreuqValue = toreuqValue * 1.96f - 0.92f;
         toreuqValue = Utils.Limit((float)toreuqValue, 0, FULL_TORQUE);
         return torqueSign * toreuqValue;
     }
