@@ -100,7 +100,15 @@ public class MainController : MonoBehaviour
             dynamicObject.size
         );
         SetPosition(newObject, dynamicObject.position);
+        var isGhost = dynamicObject.type == "ghost-ball";
+        newObject.GetComponent<DynamicObjectController>().isGhost = isGhost;
         newObject.GetComponent<DynamicObjectController>().isFlickering = dynamicObject.type == "flickering-ball";
+
+        if (isGhost)
+        {
+            newObject.GetComponent<Collider>().enabled = false;
+        }
+
         return newObject;
     }
 

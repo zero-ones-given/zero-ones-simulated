@@ -13,8 +13,10 @@ public class DynamicObjectController : MonoBehaviour
     float _arenaMaxY = 2;
     float _arenaMaxZ = 1.5f / 2;
     MeshRenderer _renderer;
+    Collider _collider;
     Color _originalColor;
     public bool isFlickering = false;
+    public bool isGhost = false;
 
     void Start()
     {
@@ -31,11 +33,16 @@ public class DynamicObjectController : MonoBehaviour
         _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
         _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, _arenaMaxX, _arenaMaxY, _arenaMaxZ, 0.1f);
 
-        if (isFlickering && _renderer)
+        if ((isFlickering || isGhost) && _renderer)
         {
-            if (Random.Range(0f, 1f) > 0.8f) {
-                _renderer.material.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0.1f);
-            } else {
+            var probability = isGhost ? 0.025f : 0.8f;
+            if (Random.Range(0f, 1f) > probability)
+            {
+                var color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, isGhost ? 0f : 0.1f);
+                _renderer.material.color = color;
+            }
+            else
+            {
                 _renderer.material.color = _originalColor;
             }
         }

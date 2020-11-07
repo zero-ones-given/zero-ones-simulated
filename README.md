@@ -61,7 +61,7 @@ Dynamic objects have the following properties
 
 | Option           | Type    | Notes |
 | ---------------- | ------- | ----- |
-| type             | string  | One of the following: `ball`, `flickering-ball`, `cube`, `traffic-cone`
+| type             | string  | One of the following: `ball`, `flickering-ball`, `ghost-ball`, `cube`, `traffic-cone`
 | color            | string  | A hexadecimal color code
 | position         | array   | A list of three floating point numbers and an optional integer in the following order: x, y, z, angle in degrees
 | mass             | float   | Mass in kg
