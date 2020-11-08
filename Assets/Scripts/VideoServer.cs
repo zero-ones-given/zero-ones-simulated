@@ -6,17 +6,21 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.IO;
+using System.Collections.Concurrent;
 
 
 class VideoServer
 {
-    public Color32[] LatestFrame = {};
-    public float LatestFrameAt = 0;
-    private float _latestStartedFrameTimestamp = -1;
-    public float latestSentFrameTimestamp = -1;
-    public uint Resolution = 400;
+    public int Resolution = 400;
+    private StreamCameraController _cameraController;
 
-    public void Start(int port = 8080)
+    private ConcurrentDictionary<string, Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>> _clients = new ConcurrentDictionary<string, Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>>();
+
+    const string Headers = "HTTP/1.1 200 OK\r\n" +
+"Content-Type: multipart/x-mixed-replace; boundary=--boundary\r\n";
+
+    public void Start(int port, StreamCameraController cameraController)
     {
         Debug.Log($"Starting http server: {port}");
         var applicationPath = Application.dataPath;
@@ -29,8 +33,33 @@ class VideoServer
             while (true)
             {
                 var client = tcpListener.AcceptTcpClient();
-                var videoThread = new Thread(() => StreamVideo(client, applicationPath));
-                videoThread.Start();
+                var id = Path.GetTempFileName();
+
+                var sendFrame = new System.EventHandler<FrameUpdatedEvent>((sender,ev) =>
+                {
+                    var disabled = false;
+                    if (!disabled)
+                        try
+                        {
+                            SendFrame(client, ev);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.Log($"Encountered error: {ex.Message}");
+
+                            disabled = true;
+                            // Cleanup
+                            _clients.TryRemove(id, out var tuple);
+                            cameraController.FrameUpdated -= tuple.Item2;
+                            tuple.Item1.Dispose();
+                        }
+                });
+
+                var stream = client.GetStream();
+                WriteString(Headers, stream);
+                _clients.TryAdd(id, new Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>(client, sendFrame));
+
+                cameraController.FrameUpdated += sendFrame;
             }
         }).Start();
     }
@@ -47,40 +76,13 @@ class VideoServer
         stream.Write(encodedString, 0, encodedString.Length);
     }
 
-    private void StreamVideo(TcpClient client, string applicationPath)
+    private void SendFrame(TcpClient client, FrameUpdatedEvent ev)
     {
-        using(client)
-        using(var stream = client.GetStream())
-        {
-            const string headers = "HTTP/1.1 200 OK\r\n" +
-            "Content-Type: multipart/x-mixed-replace; boundary=--boundary\r\n";
+        var stream = client.GetStream();
+        var encodedFrame = ImageConversion.EncodeArrayToJPG(ev.Data, GraphicsFormat.R8G8B8A8_UNorm, (uint)ev.Resolution, (uint)ev.Resolution);
 
-            WriteString(headers, stream);
-
-            while(true)
-            {
-                try
-                {
-                    if (_latestStartedFrameTimestamp < LatestFrameAt)
-                    {
-                        _latestStartedFrameTimestamp = LatestFrameAt;
-                        
-                        var encodedFrame = ImageConversion.EncodeArrayToJPG(LatestFrame, GraphicsFormat.R8G8B8A8_UNorm, Resolution, Resolution);
-
-                        WriteString(GetImageHeaders(encodedFrame), stream);
-                        stream.Write(encodedFrame, 0, encodedFrame.Length);
-                        WriteString("\r\n", stream);
-                        latestSentFrameTimestamp = _latestStartedFrameTimestamp;
-                    }
-                    Thread.Sleep(5);
-                }
-                catch (Exception ex)
-                {
-                    // Disconnected?
-                    Debug.Log($"Encountered error: {ex.Message}");
-                    break;
-                }
-            }
-        };
+        WriteString(GetImageHeaders(encodedFrame), stream);
+        stream.Write(encodedFrame, 0, encodedFrame.Length);
+        WriteString("\r\n", stream);
     }
 }

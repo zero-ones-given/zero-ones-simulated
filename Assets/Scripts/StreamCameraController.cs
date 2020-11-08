@@ -6,6 +6,12 @@ using System;
 using System.IO;
 using System.Threading;
 
+public class FrameUpdatedEvent : EventArgs
+{
+    public Color32[] Data = { };
+    public int Resolution { get; set; }
+}
+
 public class StreamCameraController : MonoBehaviour
 {
     public float FrameInterval = 1f / 10;
@@ -15,6 +21,8 @@ public class StreamCameraController : MonoBehaviour
     private VideoServer _videoServer;
     private float _lastFrameAt = 0;
 
+    public EventHandler<FrameUpdatedEvent> FrameUpdated;
+
     void Start()
     {
         _streamCamera = this.GetComponent<Camera>();
@@ -23,7 +31,17 @@ public class StreamCameraController : MonoBehaviour
     public void StartVideoServer(int port)
     {
         _videoServer = new VideoServer();
-        _videoServer.Start(port);
+        _videoServer.Start(port, this);
+    }
+
+    private void OnFrameUpdated(Color32[] frameData)
+    {
+        var handler = FrameUpdated;
+
+        if (handler != null)
+        {
+            handler.Invoke(this, new FrameUpdatedEvent { Data = frameData, Resolution = Resolution });
+        }
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -38,9 +56,7 @@ public class StreamCameraController : MonoBehaviour
             tempTex.ReadPixels(new Rect(0, 0, Resolution, Resolution), 0, 0, false);
             tempTex.Apply();
 
-            _videoServer.Resolution = (uint) Resolution;
-            _videoServer.LatestFrame = tempTex.GetPixels32();
-            _videoServer.LatestFrameAt = _lastFrameAt;
+            OnFrameUpdated(tempTex.GetPixels32());
 
             Destroy(tempTex);
             RenderTexture.ReleaseTemporary(tempRT);
