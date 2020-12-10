@@ -15,10 +15,11 @@ class VideoServer
     public int Resolution = 400;
     private StreamCameraController _cameraController;
 
-    private ConcurrentDictionary<string, Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>> _clients = new ConcurrentDictionary<string, Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>>();
+    private ConcurrentDictionary<string, Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>> _clients =
+        new ConcurrentDictionary<string, Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>>();
 
     const string Headers = "HTTP/1.1 200 OK\r\n" +
-"Content-Type: multipart/x-mixed-replace; boundary=--boundary\r\n";
+        "Content-Type: multipart/x-mixed-replace; boundary=--boundary\r\n";
 
     public void Start(int port, StreamCameraController cameraController)
     {
@@ -33,29 +34,30 @@ class VideoServer
             while (true)
             {
                 var client = tcpListener.AcceptTcpClient();
+                var stream = client.GetStream();
+                if (!IsGetRequest(stream))
+                {
+                    client.Close();
+                    continue;
+                }
                 var id = Path.GetTempFileName();
 
                 var sendFrame = new System.EventHandler<FrameUpdatedEvent>((sender,ev) =>
                 {
-                    var disabled = false;
-                    if (!disabled)
-                        try
-                        {
-                            SendFrame(client, ev);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.Log($"Encountered error: {ex.Message}");
-
-                            disabled = true;
-                            // Cleanup
-                            _clients.TryRemove(id, out var tuple);
-                            cameraController.FrameUpdated -= tuple.Item2;
-                            tuple.Item1.Dispose();
-                        }
+                    try
+                    {
+                        SendFrame(client, ev);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log($"Encountered error: {ex.Message}");
+                        // Cleanup
+                        _clients.TryRemove(id, out var tuple);
+                        cameraController.FrameUpdated -= tuple.Item2;
+                        tuple.Item1.Dispose();
+                    }
                 });
 
-                var stream = client.GetStream();
                 WriteString(Headers, stream);
                 _clients.TryAdd(id, new Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>(client, sendFrame));
 
@@ -68,6 +70,13 @@ class VideoServer
     {
         return "\r\n--boundary\r\nContent-Type: image/jpeg\r\n" +
             $"Content-Length: {image.Length}\r\n\r\n";
+    }
+
+    private bool IsGetRequest(NetworkStream stream)
+    {
+        Byte[] bytes = new Byte[3];
+        stream.Read(bytes, 0, bytes.Length);
+        return Encoding.ASCII.GetString(bytes, 0, bytes.Length) == "GET";
     }
 
     private void WriteString(string str, NetworkStream stream)
