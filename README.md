@@ -7,11 +7,10 @@ A simple simulator for a robot arena
 - You can use one of the [pre built binaries](https://github.com/zero-ones-given/zero-ones-simulated/releases) (Windows, MacOS, Linux)
 - Alternatively you can build and run the Unity project
     - select the `MainScene` from the editor
-    - If you run the project straight from the Unity editor, make sure to select 1080x1080 as your resolution
+    - If you run the project straight from the Unity editor, make sure to select 720x720 (or the resolution you've confiugred in the configuration.json) as your resolution
     - The built version expects a configuration.json and Images folder in the same folder as the binary. You can copy them to the build folder from the root of the project.
     - On MacOS the configuration.json relative image paths should be in the format: "../../Images/aruco-0.png" when the project is run from the built binary.
 - Once the simulator is running, you can get the overhead video feed (in [MJPEG format](https://en.wikipedia.org/wiki/Motion_JPEG)) from: [http://localhost:8080](http://localhost:8080)
-    - If you're using this simulator to prepare for the Micro Invaders competition, note that the video will be provided in a different format in the actual competition
 
 ![Screenshot](screenshot.jpg)
 
@@ -39,7 +38,7 @@ Once you've built the project, you can use the configuration.json file to change
 | quality          | integer | The Unity graphics [quality level](https://docs.unity3d.com/ScriptReference/QualitySettings.SetQualityLevel.html)
 | timeScale        | float   | Can be set to e.g. `1.5` if you want to simulate faster than real time
 | controlPort      | integer | This port will listen to commands such as `reset` to reset the simulation
-| streamFPS        | integer | The target FPS for the video stream. On a slow system you probably want to go lower than the default 20. The process of capturing and encoding frames is quite slow at the moment so you probalby want to stay under 30 even on faster systems
+| streamFPS        | integer | The target FPS for the video stream. On a slow system you probably want to go lower than the default 25. The process of capturing and encoding frames is quite slow at the moment so trying to get over 30 might not be a good idea even on faster systems. The FPS limit is not set very precisely. In certain situations you may get a higher FPS than the set value.
 | streamResolution | integer | The resolution of the simulation stream (and window). The same resolution will be used for width and height
 | streamPort       | integer | The port for the video stream
 | robots           | array   | A list of robot objects

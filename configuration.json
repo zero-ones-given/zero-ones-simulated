@@ -2,7 +2,7 @@
   "quality": 5,
   "timeScale": 1,
   "controlPort": 3000,
-  "streamFPS": 20,
+  "streamFPS": 25,
   "streamResolution": 720,
   "streamPort": 8080,
   "robots": [

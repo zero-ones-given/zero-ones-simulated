@@ -12,7 +12,7 @@ using System.Collections.Concurrent;
 
 class VideoServer
 {
-    public int Resolution = 400;
+    public int Resolution = 720;
     private StreamCameraController _cameraController;
 
     private ConcurrentDictionary<string, Tuple<TcpClient, System.EventHandler<FrameUpdatedEvent>>> _clients =
@@ -88,7 +88,7 @@ class VideoServer
     private void SendFrame(TcpClient client, FrameUpdatedEvent ev)
     {
         var stream = client.GetStream();
-        var encodedFrame = ImageConversion.EncodeArrayToJPG(ev.Data, GraphicsFormat.R8G8B8A8_UNorm, (uint)ev.Resolution, (uint)ev.Resolution);
+        var encodedFrame = ImageConversion.EncodeArrayToJPG(ev.Data, GraphicsFormat.R8G8B8A8_UNorm, (uint)ev.Resolution, (uint)ev.Resolution, 0, 75);
 
         WriteString(GetImageHeaders(encodedFrame), stream);
         stream.Write(encodedFrame, 0, encodedFrame.Length);
