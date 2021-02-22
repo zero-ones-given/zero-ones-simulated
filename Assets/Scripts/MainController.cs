@@ -13,6 +13,7 @@ public class MainController : MonoBehaviour
     public GameObject TrafficConePrefab;
     public GameObject CubePrefab;
     public GameObject StreamCamera;
+    GameObject _selectedObject;
     UdpClient _socket;
     string _command;
     GameObject[] _dynamicObjects;
@@ -207,6 +208,29 @@ public class MainController : MonoBehaviour
             ResetSimulation();
             _command = null;
         }
+
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            var target = hit.collider.gameObject;
+
+            if (Input.GetMouseButtonDown(0)) {
+                _selectedObject = target;
+            }
+            if (Input.GetMouseButtonUp(0)) {
+                _selectedObject = null;
+            }
+
+            var dynamicObjectController = (_selectedObject ?? target).GetComponent<DynamicObjectController>();
+            if (dynamicObjectController) {
+                dynamicObjectController.Hover();
+                if (Input.GetMouseButton(0)) {
+                    dynamicObjectController.Drag(hit.point);
+                }
+            }
+        }
+
     }
 }
 

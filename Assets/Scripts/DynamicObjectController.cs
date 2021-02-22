@@ -15,6 +15,7 @@ public class DynamicObjectController : MonoBehaviour
     MeshRenderer _renderer;
     Collider _collider;
     Color _originalColor;
+    bool _isHovering = false;
     public bool isFlickering = false;
     public bool isGhost = false;
 
@@ -33,7 +34,15 @@ public class DynamicObjectController : MonoBehaviour
         _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
         _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, _arenaMaxX, _arenaMaxY, _arenaMaxZ, 0.1f);
 
-        if ((isFlickering || isGhost) && _renderer)
+        if (!_renderer) {
+            return;
+        }
+
+        if (_isHovering) {
+            _renderer.material.color = Color.cyan;
+            _isHovering = false;
+        }
+        else if (isFlickering || isGhost)
         {
             var probability = isGhost ? 0.025f : 0.8f;
             if (Random.Range(0f, 1f) > probability)
@@ -41,11 +50,22 @@ public class DynamicObjectController : MonoBehaviour
                 var color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, isGhost ? 0f : 0.1f);
                 _renderer.material.color = color;
             }
-            else
-            {
-                _renderer.material.color = _originalColor;
-            }
+        } else {
+            _renderer.material.color = _originalColor;
         }
+    }
+
+    public void Hover() {
+        _isHovering = true;
+    }
+
+    public void Drag(Vector3 point) {
+        Debug.Log($"Dragging {point.x},{point.z}");
+        _dynamicObject.transform.position = new Vector3(
+            point.x,
+            _dynamicObject.transform.position.y,
+            point.z
+        );
     }
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)
