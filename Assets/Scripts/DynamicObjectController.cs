@@ -5,7 +5,7 @@ using System.Collections;
     This controller makes sure the objects bounce back instead of going through 
     the arena walls when moving too fast for the collisions Unity calculates.
 */
-public class DynamicObjectController : MonoBehaviour
+public class DynamicObjectController : MonoBehaviour, Draggable
 {
     float _bounceMultiplier = 0.8f;
     Rigidbody _dynamicObject;
@@ -55,17 +55,23 @@ public class DynamicObjectController : MonoBehaviour
         }
     }
 
-    public void Hover() {
+    public void Hover()
+    {
         _isHovering = true;
     }
 
-    public void Drag(Vector3 point) {
-        Debug.Log($"Dragging {point.x},{point.z}");
+    public void Drag(Vector3 point)
+    {
         _dynamicObject.transform.position = new Vector3(
             point.x,
             _dynamicObject.transform.position.y,
             point.z
         );
+        _dynamicObject.velocity = new Vector3(0, 0, 0);
+    }
+
+    public void PointAt(Vector3 point)
+    {
     }
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)
