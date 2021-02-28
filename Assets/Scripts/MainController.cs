@@ -6,6 +6,13 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
+interface Draggable
+{
+    void Hover();
+    void Drag(Vector3 point);
+    void PointAt(Vector3 point);
+}
+
 public class MainController : MonoBehaviour
 {
     public GameObject BallPrefab;
@@ -215,18 +222,25 @@ public class MainController : MonoBehaviour
         {
             var target = hit.collider.gameObject;
 
-            if (Input.GetMouseButtonDown(0)) {
+            var mouseDown = Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
+            if (_selectedObject == null && mouseDown) {
                 _selectedObject = target;
             }
-            if (Input.GetMouseButtonUp(0)) {
+            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)) {
                 _selectedObject = null;
             }
 
-            var dynamicObjectController = (_selectedObject ?? target).GetComponent<DynamicObjectController>();
-            if (dynamicObjectController) {
-                dynamicObjectController.Hover();
+            var selected = _selectedObject ?? target;
+            var dynamicObjectController = selected.GetComponent<DynamicObjectController>();
+            var robotController = selected.GetComponent<RobotController>();
+            var controller = dynamicObjectController ? dynamicObjectController : robotController as Draggable;
+            if (controller != null) {
+                controller.Hover();
                 if (Input.GetMouseButton(0)) {
-                    dynamicObjectController.Drag(hit.point);
+                    controller.Drag(hit.point);
+                }
+                if (Input.GetMouseButton(1)) {
+                    controller.PointAt(hit.point);
                 }
             }
         }
