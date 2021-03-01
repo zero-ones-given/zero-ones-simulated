@@ -5,7 +5,7 @@ using System.Collections;
     This controller makes sure the objects bounce back instead of going through 
     the arena walls when moving too fast for the collisions Unity calculates.
 */
-public class DynamicObjectController : MonoBehaviour, Draggable
+public class DynamicObjectController : Draggable
 {
     float _bounceMultiplier = 0.8f;
     Rigidbody _dynamicObject;
@@ -15,12 +15,12 @@ public class DynamicObjectController : MonoBehaviour, Draggable
     MeshRenderer _renderer;
     Collider _collider;
     Color _originalColor;
-    bool _isHovering = false;
     public bool isFlickering = false;
     public bool isGhost = false;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         _dynamicObject = GetComponent<Rigidbody>();
         _renderer = _dynamicObject.GetComponent<MeshRenderer>();
         if (_renderer)
@@ -38,40 +38,18 @@ public class DynamicObjectController : MonoBehaviour, Draggable
             return;
         }
 
-        if (_isHovering) {
-            _renderer.material.color = Color.cyan;
-            _isHovering = false;
-        }
-        else if (isFlickering || isGhost)
+        var shouldAlterColor = isFlickering || isGhost;
+        var probability = isGhost ? 0.025f : 0.8f;
+        if (shouldAlterColor && Random.Range(0f, 1f) > probability)
         {
-            var probability = isGhost ? 0.025f : 0.8f;
-            if (Random.Range(0f, 1f) > probability)
-            {
-                var color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, isGhost ? 0f : 0.1f);
-                _renderer.material.color = color;
-            }
+            var opacity = isGhost ? 0f : 0.1f;
+            var color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, opacity);
+            _renderer.material.color = color;
         } else {
             _renderer.material.color = _originalColor;
         }
-    }
 
-    public void Hover()
-    {
-        _isHovering = true;
-    }
-
-    public void Drag(Vector3 point)
-    {
-        _dynamicObject.transform.position = new Vector3(
-            point.x,
-            _dynamicObject.transform.position.y,
-            point.z
-        );
-        _dynamicObject.velocity = new Vector3(0, 0, 0);
-    }
-
-    public void PointAt(Vector3 point)
-    {
+        base.Update();
     }
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)

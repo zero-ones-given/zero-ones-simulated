@@ -12,7 +12,7 @@ public class ControlDevices
     public static string Random = "random";
 }
 
-public class RobotController : MonoBehaviour, Draggable
+public class RobotController : Draggable
 {
     private const float FULL_TORQUE = 4.7f;
     public string Control;
@@ -21,9 +21,6 @@ public class RobotController : MonoBehaviour, Draggable
     public WheelCollider[] rightWheels;
     public WheelCollider[] leftWheels;
     UdpClient _socket;
-    Color _originalColor;
-    MeshRenderer _renderer;
-    bool _isHovering = false;
     private float _leftTorque = 0;
     private float _rightTorque = 0;
     private float _lastUpdate = 0;
@@ -132,20 +129,21 @@ public class RobotController : MonoBehaviour, Draggable
         }
     }
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         if (Port > 0)
         {
             _socket = new UdpClient(Port);
             Debug.Log($"Listening for UDP packets on port: {Port}");
             ListenForUDP();
         }
-        _originalColor = GetComponent<MeshRenderer>().material.color;
-        _renderer = GetComponent<MeshRenderer>();
     }
 
     void Update()
     {
+        base.Update();
+
         if (Control == ControlDevices.ArrowKeys)
         {
             ListenArrowKeys();
@@ -166,34 +164,5 @@ public class RobotController : MonoBehaviour, Draggable
         {
             wheelCollider.motorTorque = _rightTorque;
         }
-
-        if (_isHovering)
-        {
-            _renderer.material.color = Color.cyan;
-            _isHovering = false;
-        } else {
-            _renderer.material.color = _originalColor;
-        }
-    }
-
-    public void Hover()
-    {
-        _isHovering = true;
-    }
-
-    public void Drag(Vector3 point)
-    {
-        var body = GetComponent<Rigidbody>();
-        body.transform.position = new Vector3(
-            point.x,
-            body.transform.position.y,
-            point.z
-        );
-    }
-
-    public void PointAt(Vector3 point)
-    {
-        var directionVector = point - GetComponent<Rigidbody>().transform.position;
-        transform.rotation = Quaternion.LookRotation(new Vector3(directionVector.x, 0, directionVector.z));
     }
 }

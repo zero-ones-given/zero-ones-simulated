@@ -6,13 +6,6 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-interface Draggable
-{
-    void Hover();
-    void Drag(Vector3 point);
-    void PointAt(Vector3 point);
-}
-
 public class MainController : MonoBehaviour
 {
     public GameObject BallPrefab;
