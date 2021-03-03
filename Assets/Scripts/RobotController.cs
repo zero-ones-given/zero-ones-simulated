@@ -142,8 +142,6 @@ public class RobotController : Draggable
 
     void Update()
     {
-        base.Update();
-
         if (Control == ControlDevices.ArrowKeys)
         {
             ListenArrowKeys();

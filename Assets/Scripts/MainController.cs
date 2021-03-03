@@ -14,6 +14,7 @@ public class MainController : MonoBehaviour
     public GameObject CubePrefab;
     public GameObject StreamCamera;
     GameObject _selectedObject;
+    GameObject _highlightedObject;
     UdpClient _socket;
     string _command;
     GameObject[] _dynamicObjects;
@@ -197,6 +198,17 @@ public class MainController : MonoBehaviour
         StartUDPServer(_configuration.controlPort);
     }
 
+    Draggable GetDraggable(GameObject highlighted) {
+        if (!highlighted) {
+            return null;
+        }
+        var dynamicObjectController = highlighted.GetComponent<DynamicObjectController>();
+        if (dynamicObjectController) {
+            return dynamicObjectController as Draggable;
+        }
+        return highlighted.GetComponent<RobotController>() as Draggable;
+    }
+
     void Update ()
     {
         if (Input.GetKey("escape"))
@@ -210,25 +222,25 @@ public class MainController : MonoBehaviour
         }
 
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var mouseDown = Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
+        var mouseUp = Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
             var target = hit.collider.gameObject;
-
-            var mouseDown = Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
+            // Select a new object only if no object is selected
             if (_selectedObject == null && mouseDown) {
                 _selectedObject = target;
             }
-            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)) {
+            if (mouseUp) {
                 _selectedObject = null;
             }
 
-            var selected = _selectedObject ?? target;
-            var dynamicObjectController = selected.GetComponent<DynamicObjectController>();
-            var robotController = selected.GetComponent<RobotController>();
-            var controller = dynamicObjectController ? dynamicObjectController : robotController as Draggable;
+            GetDraggable(_highlightedObject)?.ResetHighlight();
+            _highlightedObject = _selectedObject ?? target;
+            var controller = GetDraggable(_highlightedObject);
             if (controller != null) {
-                controller.Hover();
+                controller.Highlight();
                 if (Input.GetMouseButton(0)) {
                     controller.Drag(hit.point);
                 }

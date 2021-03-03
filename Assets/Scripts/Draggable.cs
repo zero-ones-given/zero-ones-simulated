@@ -2,33 +2,28 @@ using UnityEngine;
 
 public class Draggable : MonoBehaviour
 {
-    bool _isHovering = false;
-    bool _resetColor = false;
-    Color _originalColor2;
+    public bool IsHighlighted = false;
+    Color _originalColor;
     MeshRenderer _renderer;
     Rigidbody _body;
 
     public virtual void Start()
     {
-        _originalColor2 = GetComponent<MeshRenderer>().material.color;
+        _originalColor = GetComponent<MeshRenderer>().material.color;
         _renderer = GetComponent<MeshRenderer>();
         _body = GetComponent<Rigidbody>();
     }
 
-    public virtual void Update() {
-        if (_isHovering) {
-            _renderer.material.color = Color.cyan;
-            _isHovering = false;
-            _resetColor = true;
-        } else if (_resetColor) {
-            _renderer.material.color = _originalColor2;
-            _resetColor = false;
-        }
+    public void Highlight()
+    {
+        IsHighlighted = true;
+        _renderer.material.color = Color.cyan;
     }
 
-    public void Hover()
+    public void ResetHighlight()
     {
-        _isHovering = true;
+        IsHighlighted = false;
+        _renderer.material.color = _originalColor;
     }
 
     public void Drag(Vector3 point)

@@ -34,7 +34,7 @@ public class DynamicObjectController : Draggable
         _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
         _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, _arenaMaxX, _arenaMaxY, _arenaMaxZ, 0.1f);
 
-        if (!_renderer) {
+        if (!_renderer || IsHighlighted) {
             return;
         }
 
@@ -48,8 +48,6 @@ public class DynamicObjectController : Draggable
         } else {
             _renderer.material.color = _originalColor;
         }
-
-        base.Update();
     }
 
     float FlipIfOver(float target, float number, float lowerLimit, float upperLimit)
