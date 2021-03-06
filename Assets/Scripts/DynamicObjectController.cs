@@ -23,7 +23,7 @@ public class DynamicObjectController : Draggable
         base.Start();
         _dynamicObject = GetComponent<Rigidbody>();
         _renderer = _dynamicObject.GetComponent<MeshRenderer>();
-        if (_renderer)
+        if (_renderer != null)
         {
             _originalColor = _renderer.material.color;
         }
@@ -34,7 +34,7 @@ public class DynamicObjectController : Draggable
         _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
         _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, _arenaMaxX, _arenaMaxY, _arenaMaxZ, 0.1f);
 
-        if (!_renderer || IsHighlighted) {
+        if (_renderer == null || IsHighlighted) {
             return;
         }
 

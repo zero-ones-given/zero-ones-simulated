@@ -37,7 +37,6 @@ public class MainController : MonoBehaviour
 
     void ResetSimulation()
     {
-        Debug.Log(_dynamicObjects.Length);
         for (int index = 0; index < _dynamicObjects.Length; index++)
         {
             Debug.Log($"Resetting dynamic object {index}");
@@ -198,17 +197,6 @@ public class MainController : MonoBehaviour
         StartUDPServer(_configuration.controlPort);
     }
 
-    Draggable GetDraggable(GameObject highlighted) {
-        if (!highlighted) {
-            return null;
-        }
-        var dynamicObjectController = highlighted.GetComponent<DynamicObjectController>();
-        if (dynamicObjectController) {
-            return dynamicObjectController as Draggable;
-        }
-        return highlighted.GetComponent<RobotController>() as Draggable;
-    }
-
     void Update ()
     {
         if (Input.GetKey("escape"))
@@ -236,9 +224,9 @@ public class MainController : MonoBehaviour
                 _selectedObject = null;
             }
 
-            GetDraggable(_highlightedObject)?.ResetHighlight();
+            _highlightedObject?.GetComponent<Draggable>()?.ResetHighlight();
             _highlightedObject = _selectedObject ?? target;
-            var controller = GetDraggable(_highlightedObject);
+            var controller = _highlightedObject?.GetComponent<Draggable>();
             if (controller != null) {
                 controller.Highlight();
                 if (Input.GetMouseButton(0)) {
