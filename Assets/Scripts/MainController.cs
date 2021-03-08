@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System;
 using System.IO;
 using System.Threading;
@@ -39,19 +40,10 @@ public class MainController : MonoBehaviour
     {
         for (int index = 0; index < _dynamicObjects.Length; index++)
         {
-            Debug.Log($"Resetting dynamic object {index}");
-            try
-            {
-                SetPosition(_dynamicObjects[index], _configuration.dynamicObjects[index].position);
-            }
-            catch (Exception ex)
-            {
-                Debug.Log($"Encountered error: {ex.Message}");
-            }
+            SetPosition(_dynamicObjects[index], _configuration.dynamicObjects[index].position);
         }
         for (int index = 0; index < _robots.Length; index++)
         {
-            Debug.Log($"Resetting robot {index}");
             _robots[index].GetComponent<RobotController>().reset();
             SetPosition(_robots[index], _configuration.robots[index].position);
         }
@@ -154,6 +146,11 @@ public class MainController : MonoBehaviour
         return newRobot;
     }
 
+    float[] GetPosition(GameObject gameObject)
+    {
+        var position = gameObject.transform.position;
+        return new [] { position.x, position.y, position.z, gameObject.transform.eulerAngles.y };
+    }
     void SetPosition(GameObject gameObject, float[] position)
     {
         var rigidbody = gameObject.GetComponent<Rigidbody>();
@@ -180,6 +177,24 @@ public class MainController : MonoBehaviour
             Debug.Log($"Listening for UDP packets on port: {port}");
             ListenForUDP();
         }
+    }
+
+    void SaveConfiguration()
+    {
+        var path = EditorUtility.SaveFilePanel("Save current positions as a configuration file", "",
+            "configuration.json", "json");
+        if (path.Length == 0) {
+            return;
+        }
+        for (int index = 0; index < _dynamicObjects.Length; index++)
+        {
+            _configuration.dynamicObjects[index].position = GetPosition(_dynamicObjects[index]);
+        }
+        for (int index = 0; index < _robots.Length; index++)
+        {
+            _configuration.robots[index].position = GetPosition(_robots[index]);
+        }
+        File.WriteAllText(path, JsonUtility.ToJson(_configuration));
     }
 
     void Start()
@@ -237,7 +252,12 @@ public class MainController : MonoBehaviour
                 }
             }
         }
-
+        var isControlPressed = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) ||
+            Input.GetKey(KeyCode.LeftApple) || Input.GetKey(KeyCode.RightApple);
+        if (isControlPressed && Input.GetKeyDown(KeyCode.S))
+        {
+            SaveConfiguration();
+        }
     }
 }
 
