@@ -74,6 +74,13 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.sendto(bytes("reset", "utf-8"), ("127.0.0.1", 3000))
 ```
 
+## Manipulating object locations
+You can drag and drop objects around. Left mouse button drags the object and right mouse button points the selected object towards the cursor.
+
+## Saving and loading
+You can save the current object positions as a json file by pressing `ctrl + s` or `cmd + s`.
+You can load saved positions from a file by pressing `ctrl + o` or `cmd + o`
+
 ## Reading the video stream
 The video stream can be read by any client that supports MJPEG. For example in Python you could do this with OpenCV:
 ```
