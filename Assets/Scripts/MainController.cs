@@ -6,6 +6,7 @@ using System.Threading;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Linq;
 
 public class MainController : MonoBehaviour
 {
@@ -18,8 +19,8 @@ public class MainController : MonoBehaviour
     GameObject _highlightedObject;
     UdpClient _socket;
     string _command;
-    GameObject[] _dynamicObjects;
-    GameObject[] _robots;
+    GameObject[] _dynamicObjects = {};
+    GameObject[] _robots = {};
     Configuration _configuration;
 
     void ListenForUDP()
@@ -181,9 +182,12 @@ public class MainController : MonoBehaviour
 
     void SaveConfiguration()
     {
-        var path = EditorUtility.SaveFilePanel("Save current positions as a configuration file", "",
-            "configuration.json", "json");
-        if (path.Length == 0) {
+        var filePath = EditorUtility.SaveFilePanel(
+            "Save current positions as a configuration file",
+            "",
+            "configuration.json",
+            "json");
+        if (filePath.Length == 0) {
             return;
         }
         for (int index = 0; index < _dynamicObjects.Length; index++)
@@ -194,20 +198,52 @@ public class MainController : MonoBehaviour
         {
             _configuration.robots[index].position = GetPosition(_robots[index]);
         }
-        File.WriteAllText(path, JsonUtility.ToJson(_configuration));
+        File.WriteAllText(filePath, JsonUtility.ToJson(_configuration));
+    }
+
+    void OpenConfiguration()
+    {
+        var filePath = EditorUtility.OpenFilePanel(
+            "Load object positions from a configuration file (other settings will remain unchanged)",
+            "",
+            "json");
+        if (filePath.Length == 0) {
+            return;
+        }
+        LoadConfiguration(filePath);
+        SpawnConfigurationObjects();
+    }
+
+    void LoadConfiguration(string filePath)
+    {
+        var jsonString = File.ReadAllText(filePath);
+        _configuration = JsonUtility.FromJson<Configuration>(jsonString);
+    }
+
+    void SpawnConfigurationObjects()
+    {
+        foreach (var item in _dynamicObjects.Concat(_robots).ToArray())
+        {
+            if (item != null)
+            {
+                item.GetComponent<RobotController>()?.Stop();
+                Destroy(item);
+            }
+        }
+        _dynamicObjects = new GameObject[]{};
+        _robots = new GameObject[]{};
+        SpawnDynamicObjects(_configuration.dynamicObjects);
+        SpawnRobots(_configuration.robots);
     }
 
     void Start()
     {
-        var jsonString = File.ReadAllText("./configuration.json");
-        _configuration = JsonUtility.FromJson<Configuration>(jsonString);
+        LoadConfiguration("./configuration.json");
+        SpawnConfigurationObjects();
 
         Time.timeScale = _configuration.timeScale;
         QualitySettings.SetQualityLevel(_configuration.quality, true);
-
         Screen.SetResolution(_configuration.streamResolution, _configuration.streamResolution, false);
-        SpawnDynamicObjects(_configuration.dynamicObjects);
-        SpawnRobots(_configuration.robots);
         SetCameraOptions(_configuration);
         StartUDPServer(_configuration.controlPort);
     }
@@ -257,6 +293,10 @@ public class MainController : MonoBehaviour
         if (isControlPressed && Input.GetKeyDown(KeyCode.S))
         {
             SaveConfiguration();
+        }
+        if (isControlPressed && Input.GetKeyDown(KeyCode.O))
+        {
+            OpenConfiguration();
         }
     }
 }
