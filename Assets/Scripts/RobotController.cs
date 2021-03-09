@@ -163,4 +163,9 @@ public class RobotController : Draggable
             wheelCollider.motorTorque = _rightTorque;
         }
     }
+
+    public void Stop()
+    {
+        _socket?.Close();
+    }
 }
