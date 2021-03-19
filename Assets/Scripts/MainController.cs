@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System;
 using System.IO;
 using System.Threading;
@@ -180,7 +180,7 @@ public class MainController : MonoBehaviour
         }
     }
 
-    void SaveConfiguration()
+    /*void SaveConfiguration()
     {
         var filePath = EditorUtility.SaveFilePanel(
             "Save current positions as a configuration file",
@@ -212,7 +212,7 @@ public class MainController : MonoBehaviour
         }
         LoadConfiguration(filePath);
         SpawnConfigurationObjects();
-    }
+    }*/
 
     void LoadConfiguration(string filePath)
     {
@@ -290,14 +290,14 @@ public class MainController : MonoBehaviour
         }
         var isControlPressed = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) ||
             Input.GetKey(KeyCode.LeftApple) || Input.GetKey(KeyCode.RightApple);
-        if (isControlPressed && Input.GetKeyDown(KeyCode.S))
+        /*if (isControlPressed && Input.GetKeyDown(KeyCode.S))
         {
             SaveConfiguration();
         }
         if (isControlPressed && Input.GetKeyDown(KeyCode.O))
         {
             OpenConfiguration();
-        }
+        }*/
     }
 }
 
