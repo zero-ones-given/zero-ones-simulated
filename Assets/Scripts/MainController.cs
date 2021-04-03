@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-//using UnityEditor;
 using System;
 using System.IO;
 using System.Threading;
@@ -19,6 +18,7 @@ public class MainController : MonoBehaviour
     GameObject _highlightedObject;
     UdpClient _socket;
     string _command;
+    string _configurationFilePath = "configuration.json";
     GameObject[] _dynamicObjects = {};
     GameObject[] _robots = {};
     Configuration _configuration;
@@ -180,16 +180,8 @@ public class MainController : MonoBehaviour
         }
     }
 
-    /*void SaveConfiguration()
+    void SaveConfiguration()
     {
-        var filePath = EditorUtility.SaveFilePanel(
-            "Save current positions as a configuration file",
-            "",
-            "configuration.json",
-            "json");
-        if (filePath.Length == 0) {
-            return;
-        }
         for (int index = 0; index < _dynamicObjects.Length; index++)
         {
             _configuration.dynamicObjects[index].position = GetPosition(_dynamicObjects[index]);
@@ -198,21 +190,14 @@ public class MainController : MonoBehaviour
         {
             _configuration.robots[index].position = GetPosition(_robots[index]);
         }
-        File.WriteAllText(filePath, JsonUtility.ToJson(_configuration));
+        File.WriteAllText(_configurationFilePath, JsonUtility.ToJson(_configuration));
     }
 
     void OpenConfiguration()
     {
-        var filePath = EditorUtility.OpenFilePanel(
-            "Load object positions from a configuration file (other settings will remain unchanged)",
-            "",
-            "json");
-        if (filePath.Length == 0) {
-            return;
-        }
-        LoadConfiguration(filePath);
+        LoadConfiguration(_configurationFilePath);
         SpawnConfigurationObjects();
-    }*/
+    }
 
     void LoadConfiguration(string filePath)
     {
