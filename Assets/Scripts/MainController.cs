@@ -194,7 +194,10 @@ public class MainController : MonoBehaviour
     {
         for (int index = 0; index < _dynamicObjects.Length; index++)
         {
-            _configuration.dynamicObjects[index].position = GetPosition(_dynamicObjects[index]);
+            if (_dynamicObjects[index] != null)
+            {
+                _configuration.dynamicObjects[index].position = GetPosition(_dynamicObjects[index]);
+            }
         }
         for (int index = 0; index < _robots.Length; index++)
         {
@@ -265,17 +268,23 @@ public class MainController : MonoBehaviour
         {
             var target = hit.collider.gameObject;
             // Select a new object only if no object is selected
-            if (_selectedObject == null && mouseDown) {
+            if (_selectedObject == null && mouseDown)
+            {
                 _selectedObject = target;
             }
-            if (mouseUp) {
+            if (mouseUp)
+            {
                 _selectedObject = null;
             }
-
-            _highlightedObject?.GetComponent<Draggable>()?.ResetHighlight();
-            _highlightedObject = _selectedObject ?? target;
+            // Optional chaining and the null coalescing operator do not work for destroyed objects so regular if statements and ternaries are needed
+            if (_highlightedObject != null)
+            {
+                _highlightedObject.GetComponent<Draggable>()?.ResetHighlight();
+            }
+            
+            _highlightedObject = _selectedObject != null ? _selectedObject : target;
             var controller = _highlightedObject?.GetComponent<Draggable>();
-            if (controller != null) {
+            if (_highlightedObject != null && controller != null) {
                 controller.Highlight();
                 if (Input.GetMouseButton(0)) {
                     controller.Drag(hit.point);

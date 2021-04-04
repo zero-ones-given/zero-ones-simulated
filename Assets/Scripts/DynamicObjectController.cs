@@ -34,7 +34,8 @@ public class DynamicObjectController : Draggable
         _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
         _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, _arenaMaxX, _arenaMaxY, _arenaMaxZ, 0.1f);
 
-        if (_renderer == null || IsHighlighted) {
+        if (_renderer == null || IsHighlighted)
+        {
             return;
         }
 
@@ -47,6 +48,14 @@ public class DynamicObjectController : Draggable
             _renderer.material.color = color;
         } else {
             _renderer.material.color = _originalColor;
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("goal"))
+        {
+            Destroy(gameObject);
         }
     }
 
