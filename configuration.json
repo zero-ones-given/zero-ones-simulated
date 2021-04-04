@@ -1,1 +1,92 @@
-{"quality":5,"timeScale":1.0,"controlPort":3000,"streamFPS":25,"streamResolution":720,"streamPort":8080,"robots":[{"marker":"../Images/aruco-0.png","color":"#ffffff","control":"arrows","position":[0.42315587401390078,0.06281226873397827,-0.22262461483478547,314.96087646484377]},{"marker":"../Images/aruco-1.png","color":"#ffffff","control":"wasd","position":[-0.08243686705827713,0.06281223893165589,-0.36129119992256167,314.959716796875]},{"marker":"../Images/aruco-2.png","color":"#000000","control":"udp:3001","position":[-0.4231559634208679,0.06281223148107529,0.22262455523014069,134.9608917236328]},{"marker":"../Images/aruco-3.png","color":"#000000","control":"udp:3002","position":[-0.22315609455108643,0.06281224638223648,0.4226245582103729,134.9608917236328]}],"dynamicObjects":[{"type":"ball","color":"#ff00ff","position":[0.6000000238418579,0.03849999979138374,-0.00008928230818128213,0.0],"mass":0.009999999776482582,"size":0.07000000029802323},{"type":"ball","color":"#ff00ff","position":[-0.6063177585601807,0.03849999979138374,2.2917863353594248e-12,8.192543865526147e-10],"mass":0.009999999776482582,"size":0.07000000029802323},{"type":"ball","color":"#ff00ff","position":[-0.00009354983922094107,0.03850000351667404,0.6000038385391235,0.000023108330424292944],"mass":0.009999999776482582,"size":0.07000000029802323},{"type":"ball","color":"#ff00ff","position":[0.0,0.03850000351667404,-0.6002124547958374,0.0],"mass":0.009999999776482582,"size":0.07000000029802323},{"type":"ball","color":"#00ff00","position":[0.12002106755971909,0.03849999979138374,0.12002106755971909,-0.000016789677829365246],"mass":0.009999999776482582,"size":0.07000000029802323},{"type":"ball","color":"#00ff00","position":[-0.11999999731779099,0.03850000351667404,-0.11999999731779099,-1.739216409779587e-12],"mass":0.009999999776482582,"size":0.07000000029802323},{"type":"ball","color":"#00ff00","position":[0.550000011920929,0.03849999979138374,0.550000011920929,0.0],"mass":0.009999999776482582,"size":0.07000000029802323},{"type":"ball","color":"#00ff00","position":[-0.550000011920929,0.03850000351667404,-0.550000011920929,0.0],"mass":0.009999999776482582,"size":0.07000000029802323}]}
+{
+  "quality": 5,
+  "timeScale": 1,
+  "controlPort": 3000,
+  "streamFPS": 25,
+  "streamResolution": 720,
+  "streamPort": 8080,
+  "robots": [
+    {
+      "marker": "../Images/aruco-0.png",
+      "color": "#ffffff",
+      "control": "arrows",
+      "position": [ 0.42, 0.3, -0.22, 315 ]
+    },
+    {
+      "marker": "../Images/aruco-1.png",
+      "color": "#ffffff",
+      "control": "wasd",
+      "position": [ 0.22, 0.3, -0.42, 315 ]
+    },
+    {
+      "marker": "../Images/aruco-2.png",
+      "color": "#000000",
+      "control": "udp:3001",
+      "position": [ -0.42, 0.3, 0.22, 135 ]
+    },
+    {
+      "marker": "../Images/aruco-3.png",
+      "color": "#000000",
+      "control": "udp:3002",
+      "position": [ -0.22, 0.3, 0.42, 135 ]
+    }
+  ],
+  "dynamicObjects": [
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [ 0.6, 0.5, 0 ],
+      "mass": 0.01,
+      "size": 0.07
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [ -0.6, 0.5, 0 ],
+      "mass": 0.01,
+      "size": 0.07
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [ 0, 0.5, 0.6 ],
+      "mass": 0.01,
+      "size": 0.07
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [ 0, 0.5, -0.6 ],
+      "mass": 0.01,
+      "size": 0.07
+    },
+    {
+      "type": "ball",
+      "color": "#00ff00",
+      "position": [ 0.12, 0.5, 0.12 ],
+      "mass": 0.01,
+      "size": 0.07
+    },
+    {
+      "type": "ball",
+      "color": "#00ff00",
+      "position": [ -0.12, 0.5, -0.12 ],
+      "mass": 0.01,
+      "size": 0.07
+    },
+    {
+      "type": "ball",
+      "color": "#00ff00",
+      "position": [ 0.55, 0.5, 0.55 ],
+      "mass": 0.01,
+      "size": 0.07
+    },
+    {
+      "type": "ball",
+      "color": "#00ff00",
+      "position": [ -0.55, 0.5, -0.55 ],
+      "mass": 0.01,
+      "size": 0.07
+    }
+  ]
+}

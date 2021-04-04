@@ -106,10 +106,20 @@ public class MainController : MonoBehaviour
         return newObject;
     }
 
+    string getAbsolutePath(string filePath, string subFolder = "")
+    {
+        return $"{Application.dataPath}/{subFolder}{filePath}".Replace('/', Path.DirectorySeparatorChar);
+    }
+
     Texture2D LoadTexture(string filePath)
     {
         var texture = new Texture2D(256, 256);
-        var absolutePath = $"{Application.dataPath}/{filePath}".Replace('/', Path.DirectorySeparatorChar);
+        var absolutePath = getAbsolutePath(filePath);
+        // On different systems the image folder might be on a parent folder
+        if (!File.Exists(absolutePath))
+        {
+            absolutePath = getAbsolutePath(filePath, "../");
+        }
 
         if (File.Exists(absolutePath))
         {
