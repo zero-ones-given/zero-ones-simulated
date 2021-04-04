@@ -207,6 +207,8 @@ public class MainController : MonoBehaviour
 
     void SpawnConfigurationObjects()
     {
+        _highlightedObject = null;
+        _selectedObject = null;
         foreach (var item in _dynamicObjects.Concat(_robots).ToArray())
         {
             if (item != null)
@@ -275,14 +277,14 @@ public class MainController : MonoBehaviour
         }
         var isControlPressed = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) ||
             Input.GetKey(KeyCode.LeftApple) || Input.GetKey(KeyCode.RightApple);
-        /*if (isControlPressed && Input.GetKeyDown(KeyCode.S))
+        if (isControlPressed && Input.GetKeyDown(KeyCode.S))
         {
             SaveConfiguration();
         }
         if (isControlPressed && Input.GetKeyDown(KeyCode.O))
         {
             OpenConfiguration();
-        }*/
+        }
     }
 }
 
