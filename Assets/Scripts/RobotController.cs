@@ -14,7 +14,7 @@ public class ControlDevices
 
 public class RobotController : Draggable
 {
-    private const float FULL_TORQUE = 4.7f;
+    private const float FULL_TORQUE = 3.5f;
     public string Control;
     public int Port = 0;
 
