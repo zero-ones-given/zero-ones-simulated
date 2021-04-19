@@ -14,7 +14,7 @@ public class ControlDevices
 
 public class RobotController : Draggable
 {
-    private const float FULL_TORQUE = 3.5f;
+    private const float FULL_TORQUE = 3.6f;
     public string Control;
     public int Port = 0;
 
@@ -40,7 +40,7 @@ public class RobotController : Draggable
     {
         // the torque response in the real robot is not linear
         // TODO: make more accurate measurements and improve this
-        // TODO: make the formula generic. This only (somewhat) works for the max torque value 3
+        // TODO: make the formula generic. This only (somewhat) works for the max torque value 3.6
         var torque = Utils.MapAndLimit(commandTorque, -100, 100, -FULL_TORQUE, FULL_TORQUE);
         var torqueSign = Math.Sign(commandTorque);
         var toreuqValue = Math.Abs(torque);
