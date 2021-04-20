@@ -1,7 +1,7 @@
 ![Illustration](https://repository-images.githubusercontent.com/268081145/c5953400-e350-11ea-8386-185060a80f35)
 
 # Zero Ones Simulated
-A simple simulator for a robot arena
+A simple simulator for a robot arena inspired by the [Robot Uprising Micro Invaders competition](https://robotuprising.fi/hackathon/hackathon-microinvaders/). If you're interested in training a machine learning model on a similiar arena, take a look at the official [Micro Invaders AI Simulator](https://github.com/robot-uprising-hq/ai-simulator).
 
 ## Quickstart
 - You can use one of the [pre built binaries](https://github.com/zero-ones-given/zero-ones-simulated/releases) (Windows, MacOS, Linux)
