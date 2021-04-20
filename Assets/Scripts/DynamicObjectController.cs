@@ -12,11 +12,10 @@ public class DynamicObjectController : Draggable
     float _arenaMaxX = 1.5f / 2;
     float _arenaMaxY = 2;
     float _arenaMaxZ = 1.5f / 2;
-    MeshRenderer _renderer;
     Collider _collider;
-    Color _originalColor;
     public bool isFlickering = false;
     public bool isGhost = false;
+    public int value = 0;
 
     public override void Start()
     {
@@ -55,6 +54,8 @@ public class DynamicObjectController : Draggable
     {
         if (collider.CompareTag("goal"))
         {
+            var goalValue = gameObject.GetComponent<DynamicObjectController>()?.value ?? 0;
+            collider.GetComponent<GoalController>()?.updateScore(goalValue);
             Destroy(gameObject);
         }
     }

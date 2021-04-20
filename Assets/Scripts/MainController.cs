@@ -85,6 +85,7 @@ public class MainController : MonoBehaviour
     }
     GameObject SpawnDynamicObject(DynamicObject dynamicObject)
     {
+        Debug.Log($"Value: {dynamicObject.value}, Color: {dynamicObject.color}");
         var prefab = GetPrefab(dynamicObject.type);
         var newObject = SpawnPrefab(prefab, dynamicObject.color);
         newObject.GetComponent<Rigidbody>().mass = dynamicObject.mass;
@@ -95,8 +96,10 @@ public class MainController : MonoBehaviour
         );
         SetPosition(newObject, dynamicObject.position);
         var isGhost = dynamicObject.type == "ghost-ball";
-        newObject.GetComponent<DynamicObjectController>().isGhost = isGhost;
-        newObject.GetComponent<DynamicObjectController>().isFlickering = dynamicObject.type == "flickering-ball";
+        var controller = newObject.GetComponent<DynamicObjectController>();
+        controller.isGhost = isGhost;
+        controller.isFlickering = dynamicObject.type == "flickering-ball";
+        controller.value = dynamicObject.value;
 
         if (isGhost)
         {
@@ -315,6 +318,7 @@ public class DynamicObject
     public float[] position;
     public float mass;
     public float size;
+    public int value;
 }
 [System.Serializable]
 public class Robot

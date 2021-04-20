@@ -10,81 +10,85 @@
       "marker": "../Images/aruco-0.png",
       "color": "#ffffff",
       "control": "arrows",
-      "position": [0.42, 0.3, -0.22, 315]
+      "position": [ 0.42, 0.3, -0.22, 315 ]
     },
     {
       "marker": "../Images/aruco-1.png",
       "color": "#ffffff",
       "control": "wasd",
-      "position": [0.22, 0.3, -0.42, 315]
+      "position": [ 0.22, 0.3, -0.42, 315 ]
     },
     {
       "marker": "../Images/aruco-2.png",
       "color": "#000000",
       "control": "udp:3001",
-      "position": [-0.42, 0.3, 0.22, 135]
+      "position": [ -0.42, 0.3, 0.22, 135 ]
     },
     {
       "marker": "../Images/aruco-3.png",
       "color": "#000000",
       "control": "udp:3002",
-      "position": [-0.22, 0.3, 0.42, 135]
+      "position": [ -0.22, 0.3, 0.42, 135 ]
     }
   ],
   "dynamicObjects": [
     {
       "type": "ball",
       "color": "#ff00ff",
-      "position": [0.6, 0.5, 0],
+      "position": [ 0.6, 0.5, 0 ],
       "mass": 0.01,
-      "size": 0.07
+      "size": 0.07,
+      "value": -1
     },
     {
       "type": "ball",
       "color": "#ff00ff",
-      "position": [-0.6, 0.5, 0],
+      "position": [ -0.6, 0.5, 0 ],
       "mass": 0.01,
-      "size": 0.07
+      "size": 0.07,
+      "value": -1
     },
     {
       "type": "ball",
       "color": "#ff00ff",
-      "position": [0, 0.5, 0.6],
+      "position": [ 0, 0.5, 0.6 ],
       "mass": 0.01,
-      "size": 0.07
+      "size": 0.07,
+      "value": -1
     },
     {
       "type": "ball",
       "color": "#ff00ff",
-      "position": [0, 0.5, -0.6],
+      "position": [ 0, 0.5, -0.6 ],
+      "mass": 0.01,
+      "size": 0.07,
+      "value": -1
+    },
+    {
+      "type": "ball",
+      "color": "#00ff00",
+      "position": [ 0.12, 0.5, 0.12 ],
       "mass": 0.01,
       "size": 0.07
     },
     {
       "type": "ball",
       "color": "#00ff00",
-      "position": [0.12, 0.5, 0.12],
+      "position": [ -0.12, 0.5, -0.12 ],
       "mass": 0.01,
       "size": 0.07
     },
     {
       "type": "ball",
       "color": "#00ff00",
-      "position": [-0.12, 0.5, -0.12],
+      "position": [ 0.55, 0.5, 0.55 ],
       "mass": 0.01,
       "size": 0.07
     },
     {
       "type": "ball",
       "color": "#00ff00",
-      "position": [0.55, 0.5, 0.55],
-      "mass": 0.01,
-      "size": 0.07
-    },
-    {
-      "type": "ball",
-      "color": "#00ff00",
-      "position": [-0.55, 0.5, -0.55],
+      "position": [ -0.55, 0.5, -0.55 ],
       "mass": 0.01,
       "size": 0.07
     }

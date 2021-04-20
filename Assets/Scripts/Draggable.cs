@@ -3,8 +3,8 @@ using UnityEngine;
 public class Draggable : MonoBehaviour
 {
     public bool IsHighlighted = false;
-    Color _originalColor;
-    MeshRenderer _renderer;
+    protected MeshRenderer _renderer;
+    protected Color _originalColor;
     Rigidbody _body;
 
     public virtual void Start()
