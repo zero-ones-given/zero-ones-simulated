@@ -39,7 +39,7 @@ sock.sendto(bytes("reset", "utf-8"), ("127.0.0.1", 3000))
 ```
 
 ## Manipulating object locations
-You can drag and drop objects around. Left mouse button drags the object and right mouse button points the selected object towards the cursor.
+You can drag and drop objects around. Left mouse button drags the object and right mouse button points the highlighted object towards the cursor.
 
 ## Saving and loading
 You can save the current object positions in [configuration.json](configuration.json) file by pressing `ctrl + s` or `cmd + s`. The previous configuration will be overridden.
@@ -89,3 +89,4 @@ Dynamic objects have the following properties
 | position         | array   | A list of three floating point numbers and an optional integer in the following order: x, y, z, angle in degrees
 | mass             | float   | Mass in kg
 | size             | float   | The size of the object in meters
+| value            | integer | The value given for delivering the object to a goal
