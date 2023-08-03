@@ -17,6 +17,7 @@ A simple simulator for a robot arena inspired by the [Robot Uprising Micro Invad
 - You can control one of the robots with your keyboard (this is enabled in the default configuration for testing purposes)
 - You can control another robot by sending semicolon delimited string of motor values as UDP packets to localhost port 3001 or 3002
     - The values shoud be between 100 and -100
+    - It's a good idea to abstract sending commands in your codebase. We've been experimenting using bluetooth for controlling the robots with promising results and might switch over to bluetooth alltogether.
 - You can change the starting positions and control methods by editing the [configuration.json](configuration.json)
 
 To test out controlling the robot via UDP you can for example use the following command (Windows does not have netcat by default)
