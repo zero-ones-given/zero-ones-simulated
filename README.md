@@ -66,9 +66,9 @@ Once you've built the project, you can use the [configuration.json](configuratio
 | streamFPS        | integer | The target FPS for the video stream. On a slow system you probably want to go lower than the default 25. The process of capturing and encoding frames is quite slow at the moment so trying to get over 30 might not be a good idea even on faster systems. The FPS limit is not set very precisely. In certain situations you may get a higher FPS than the set value.
 | streamResolution | integer | The resolution of the simulation stream (and window). The same resolution will be used for width and height
 | streamPort       | integer | The port for the video stream
+| cameraRotation   | float   | Rotation for the video stream. This can be used to test camera misalignment.
 | robots           | array   | A list of robot objects
 | dynamicObjects   | array   | A list of balls or obstacles
-
 
 ### Robot object
 Robot objects have the following properties
