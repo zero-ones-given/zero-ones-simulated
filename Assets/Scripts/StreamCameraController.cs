@@ -26,10 +26,10 @@ public class StreamCameraController : MonoBehaviour
 
     public EventHandler<FrameUpdatedEvent> FrameUpdated;
 
-    public void SetCameraRotation(float rotation) {
-        Debug.Log("Rotate Camera");
-        Debug.Log(rotation);
-        transform.eulerAngles = new Vector3(90, 270, rotation);
+    public void SetCameraOffset(float[] offset) {
+        var initialCameraPosition = new Vector3(0, 1.8f, 0);
+        transform.position = initialCameraPosition + new Vector3(offset[0], offset[1], offset[2]);
+        transform.eulerAngles = new Vector3(90, 270, offset[3]);
     }
 
     public void StartVideoServer(int port)

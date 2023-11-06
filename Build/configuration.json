@@ -5,7 +5,7 @@
   "streamFPS": 25,
   "streamResolution": 720,
   "streamPort": 8080,
-  "cameraRotation": 3.5,
+  "cameraOffset": [ 0.1, 0, 0.24, 3.3],
   "robots": [
     {
       "marker": "../Images/aruco-0.png",
