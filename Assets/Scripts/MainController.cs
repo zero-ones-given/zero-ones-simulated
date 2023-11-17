@@ -242,7 +242,13 @@ public class MainController : MonoBehaviour
 
     void Start()
     {
-        LoadConfiguration("./configuration.json");
+        var configDefaultLocation = $"{Environment.CurrentDirectory}{Path.DirectorySeparatorChar}{_configurationFilePath}";
+        var configSecondaryLocation = getAbsolutePath(_configurationFilePath, "../");
+        Debug.Log($"Application.dataPath: {Application.dataPath}");
+        Debug.Log($"Config default location: {configDefaultLocation}");
+        Debug.Log($"Config secondary location: {configSecondaryLocation}");
+        LoadConfiguration(File.Exists(configDefaultLocation) ? configDefaultLocation : configSecondaryLocation);
+
         SpawnConfigurationObjects();
 
         Time.timeScale = _configuration.timeScale;

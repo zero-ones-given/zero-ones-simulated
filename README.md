@@ -91,3 +91,12 @@ Dynamic objects have the following properties
 | mass             | float   | Mass in kg
 | size             | float   | The size of the object in meters
 | value            | integer | The value given for delivering the object to a goal
+
+## Debugging
+You can find the logs that the simulator outputs here:
+Mac: ~/Library/Logs/Zero Oness Given/Zero Ones Simulated/Player.log
+Linux: ~/.config/unity3d/Zero Oness Given/Zero Ones Simulated/Player.log
+Windows: C:\Users\username\AppData\LocalLow\Zero Oness Given\Zero Ones Simulated\Player.log
+
+### Running a downloaded binary
+You may see warnings of the binary being from an unidentified source. This is expected since we have not signed it. On MacOs something called App Translocation may also occur, where the application file is moved to a random location before execution as a safety precaution. This may break loading and saving the configuration.
