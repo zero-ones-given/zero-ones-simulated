@@ -29,7 +29,7 @@ public class StreamCameraController : MonoBehaviour
     public void SetCameraOffset(float[] offset) {
         var initialCameraPosition = new Vector3(0, 1.8f, 0);
         transform.position = initialCameraPosition + new Vector3(offset[0], offset[1], offset[2]);
-        transform.eulerAngles = new Vector3(90, 270, offset[3]);
+        transform.eulerAngles = new Vector3(90 + getOffset(offset, 3), 270 + getOffset(offset, 4), getOffset(offset, 5));
     }
 
     public void StartVideoServer(int port)
@@ -42,6 +42,13 @@ public class StreamCameraController : MonoBehaviour
 
         _videoServer = new VideoServer();
         _videoServer.Start(port, this);
+    }
+
+    private float getOffset(float[] offset, int index) {
+        if (offset.Length > index) {
+            return offset[index];
+        }
+        return 0f;
     }
 
     private void OnFrameUpdated(Color32[] frameData)
