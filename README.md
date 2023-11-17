@@ -47,6 +47,8 @@ You can save the current object positions in [configuration.json](configuration.
 You can load saved positions from [configuration.json](configuration.json) by pressing `ctrl + o` or `cmd + o`.
 When running from the Unity editor you can press `ctrl + shif + o` instead to prevent the editor from stealing the keypress.
 
+On MacOS when using the pre built binaries App Translocation may prevent loading or saving the configuration. This is also why the configuration file was moved inside the .app folder. You can still edit it by right clicking the .app and selecting Show Package Contents.
+
 ## Reading the video stream
 The video stream can be read by any client that supports MJPEG. For example in Python you could do this with OpenCV:
 ```
@@ -94,9 +96,9 @@ Dynamic objects have the following properties
 
 ## Debugging
 You can find the logs that the simulator outputs here:
-Mac: ~/Library/Logs/Zero Oness Given/Zero Ones Simulated/Player.log
-Linux: ~/.config/unity3d/Zero Oness Given/Zero Ones Simulated/Player.log
-Windows: C:\Users\username\AppData\LocalLow\Zero Oness Given\Zero Ones Simulated\Player.log
+- Mac: ~/Library/Logs/Zero Oness Given/Zero Ones Simulated/Player.log
+- Linux: ~/.config/unity3d/Zero Oness Given/Zero Ones Simulated/Player.log
+- Windows: C:\Users\username\AppData\LocalLow\Zero Oness Given\Zero Ones Simulated\Player.log
 
 ### Running a downloaded binary
 You may see warnings of the binary being from an unidentified source. This is expected since we have not signed it. On MacOs something called App Translocation may also occur, where the application file is moved to a random location before execution as a safety precaution. This may break loading and saving the configuration.
