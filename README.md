@@ -6,7 +6,7 @@ A simple simulator for a robot arena inspired by the [Robot Uprising Micro Invad
 ## Quickstart
 - You can use one of the [pre built binaries](https://github.com/zero-ones-given/zero-ones-simulated/releases) (Windows, MacOS, Linux)
 - Alternatively you can build and run the Unity project
-    - select the `MainScene` from the editor
+    - Double click the `MainScene` from the editor (assets/scenes/MainScene)
     - If you run the project straight from the Unity editor, make sure to select 720x720 (or the resolution you've confiugred in the [configuration.json](configuration.json)) as your resolution
     - The built version expects a [configuration.json](configuration.json) file and a folder called Images in the same folder as the binary. You can copy them to the build folder from the root of the project.
 - Once the simulator is running, you can get the overhead video feed (in [MJPEG format](https://en.wikipedia.org/wiki/Motion_JPEG)) from: [http://localhost:8080](http://localhost:8080)
@@ -57,6 +57,12 @@ capture = cv2.VideoCapture("http://localhost:8080")
 ret, frame = capture.read()
 ```
 
+Aruco markers are placed on the robots and at the corners of the arena. This way you can correct for camera misalignment or compensate for perspective if the camera is not directly overhead. The arena corner markers have the following IDs and layout:
+- Top left: 46, right: 47
+- Bottom left: 48, right: 49
+
+Note that version 0.0.6 used partially different IDs in a different order.
+
 ## Configuration
 Once you've built the project, you can use the [configuration.json](configuration.json) file to change the configuration without the need to rebuild the project. All the units are metric and the coordinate system is left-handed (Unity uses a left handed coordinate system).
 
@@ -68,7 +74,7 @@ Once you've built the project, you can use the [configuration.json](configuratio
 | streamFPS        | integer | The target FPS for the video stream. On a slow system you probably want to go lower than the default 25. The process of capturing and encoding frames is quite slow at the moment so trying to get over 30 might not be a good idea even on faster systems. The FPS limit is not set very precisely. In certain situations you may get a higher FPS than the set value.
 | streamResolution | integer | The resolution of the simulation stream (and window). The same resolution will be used for width and height
 | streamPort       | integer | The port for the video stream
-| cameraOffset     | array   | A list of six floating point numbers in the following order: x offset, y offset, z offset, x angle, y angle and z angle in degrees. This affects the overhead stream camera and can be used to test camera misalignment.
+| cameraOffset     | array   | A list of six floating point numbers in the following order: x offset, y offset, z offset, x angle, y angle and z angle in degrees. This affects the overhead stream camera and can be used to test camera misalignment. An example of a slightly misaligned camera: `[0.1, 0, 0, -25, 0, 0]` or camera at the side of the arena: `[1, 0, 0, -27, 0, 0],`
 | robots           | array   | A list of robot objects
 | dynamicObjects   | array   | A list of balls or obstacles
 
