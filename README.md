@@ -64,7 +64,7 @@ Aruco markers are placed on the robots and at the corners of the arena. This way
 Note that version 0.0.6 used partially different IDs in a different order.
 
 ## Configuration
-Once you've built the project, you can use the [configuration.json](configuration.json) file to change the configuration without the need to rebuild the project. All the units are metric and the coordinate system is left-handed (Unity uses a left handed coordinate system).
+Once you've built the project, you can use the [configuration.json](configuration.json) file to change the configuration without the need to rebuild the project. All the units are metric and the coordinate system is left-handed (Unity uses a left handed coordinate system). On the pre-built MacOS version the configuration file and images folder is inside Zero-Ones-Simulated.app. You can access them by right clicking the app and selecting "Show Package Contents".
 
 | Option           | Type    | Notes |
 | ---------------- | ------- | ----- |
