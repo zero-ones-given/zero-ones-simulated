@@ -74,7 +74,7 @@ Once you've built the project, you can use the [configuration.json](configuratio
 | streamFPS        | integer | The target FPS for the video stream. On a slow system you probably want to go lower than the default 25. The process of capturing and encoding frames is quite slow at the moment so trying to get over 30 might not be a good idea even on faster systems. The FPS limit is not set very precisely. In certain situations you may get a higher FPS than the set value.
 | streamResolution | integer | The resolution of the simulation stream (and window). The same resolution will be used for width and height
 | streamPort       | integer | The port for the video stream
-| cameraOffset     | array   | A list of six floating point numbers in the following order: x offset, y offset, z offset, x angle, y angle and z angle in degrees. This affects the overhead stream camera and can be used to test camera misalignment. An example of a slightly misaligned camera: `[0.1, 0, 0, -25, 0, 0]` or camera at the side of the arena: `[1, 0, 0, -27, 0, 0],`
+| cameraOffset     | array   | A list of six floating point numbers in the following order: x offset, y offset, z offset, x angle, y angle and z angle in degrees. This affects the overhead stream camera and can be used to test camera misalignment. An example of a slightly misaligned camera: `[0.13, 0, 0.02, -3.4, 1.3, 0]` or camera at the side of the arena: `[1, 0, 0, -27, 0, 0]`
 | robots           | array   | A list of robot objects
 | dynamicObjects   | array   | A list of balls or obstacles
 
