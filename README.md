@@ -58,10 +58,12 @@ ret, frame = capture.read()
 ```
 
 Aruco markers are placed on the robots and at the corners of the arena. This way you can correct for camera misalignment or compensate for perspective if the camera is not directly overhead. The arena corner markers have the following IDs and layout:
-- Top left: 46, right: 47
-- Bottom left: 48, right: 49
+- **Top:** left: 46, right: 47
+- **Bottom:** left: 48, right: 49
 
 Note that version 0.0.6 used partially different IDs in a different order.
+
+A python example of how to apply perspective transformations based on aruco markers at the arena corners [can be found here](https://github.com/zero-ones-given/perspective-correction-example).
 
 ## Configuration
 Once you've built the project, you can use the [configuration.json](configuration.json) file to change the configuration without the need to rebuild the project. All the units are metric and the coordinate system is left-handed (Unity uses a left handed coordinate system). On the pre-built MacOS version the configuration file and images folder is inside Zero-Ones-Simulated.app. You can access them by right clicking the app and selecting "Show Package Contents".
