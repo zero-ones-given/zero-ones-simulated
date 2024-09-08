@@ -16,12 +16,18 @@ public class Draggable : MonoBehaviour
 
     public void Highlight()
     {
+        if (_renderer == null) {
+            return;
+        }
         IsHighlighted = true;
         _renderer.material.color = Color.cyan;
     }
 
     public void ResetHighlight()
     {
+        if (_renderer == null) {
+            return;
+        }
         IsHighlighted = false;
         _renderer.material.color = _originalColor;
     }

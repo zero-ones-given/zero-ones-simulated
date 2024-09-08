@@ -39,15 +39,10 @@ public class MainController : MonoBehaviour
 
     void ResetSimulation()
     {
-        for (int index = 0; index < _dynamicObjects.Length; index++)
-        {
-            SetPosition(_dynamicObjects[index], _configuration.dynamicObjects[index].position);
+        foreach (var goal in GameObject.FindGameObjectsWithTag("goal")) {
+            goal.GetComponent<GoalController>().SetScore(0);
         }
-        for (int index = 0; index < _robots.Length; index++)
-        {
-            _robots[index].GetComponent<RobotController>().reset();
-            SetPosition(_robots[index], _configuration.robots[index].position);
-        }
+        SpawnConfigurationObjects();
     }
 
     GameObject SpawnPrefab(GameObject prefab, string hexColor)
@@ -85,7 +80,6 @@ public class MainController : MonoBehaviour
     }
     GameObject SpawnDynamicObject(DynamicObject dynamicObject)
     {
-        Debug.Log($"Value: {dynamicObject.value}, Color: {dynamicObject.color}");
         var prefab = GetPrefab(dynamicObject.type);
         var newObject = SpawnPrefab(prefab, dynamicObject.color);
         newObject.GetComponent<Rigidbody>().mass = dynamicObject.mass;

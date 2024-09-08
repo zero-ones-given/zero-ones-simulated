@@ -55,7 +55,7 @@ public class DynamicObjectController : Draggable
         if (collider.CompareTag("goal"))
         {
             var goalValue = gameObject.GetComponent<DynamicObjectController>()?.value ?? 0;
-            collider.GetComponent<GoalController>()?.updateScore(goalValue);
+            collider.GetComponent<GoalController>()?.UpdateScore(goalValue);
             Destroy(gameObject);
         }
     }
