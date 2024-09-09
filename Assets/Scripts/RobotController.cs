@@ -5,6 +5,7 @@ using System;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Linq;
 
 public class ControlDevices
 {
@@ -138,6 +139,18 @@ public class RobotController : Draggable
             _socket = new UdpClient(Port);
             Debug.Log($"Listening for UDP packets on port: {Port}");
             ListenForUDP();
+        }
+        IgnoreWheelCollisionsWithBalls();
+    }
+
+    public void IgnoreWheelCollisionsWithBalls()
+    {
+        var wheelColliders = leftWheels.Concat(rightWheels).ToArray();
+        foreach (var dynamicObject in GameObject.FindGameObjectsWithTag("dynamic-object")) {
+            foreach (WheelCollider wheelCollider in wheelColliders)
+            {
+                Physics.IgnoreCollision(dynamicObject.GetComponent<Collider>(), wheelCollider);
+            }
         }
     }
 

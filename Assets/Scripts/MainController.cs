@@ -82,6 +82,7 @@ public class MainController : MonoBehaviour
     {
         var prefab = GetPrefab(dynamicObject.type);
         var newObject = SpawnPrefab(prefab, dynamicObject.color);
+        newObject.tag = "dynamic-object";
         newObject.GetComponent<Rigidbody>().mass = dynamicObject.mass;
         newObject.transform.localScale = new Vector3(
             dynamicObject.size,
