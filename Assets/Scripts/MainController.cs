@@ -22,6 +22,7 @@ public class MainController : MonoBehaviour
     GameObject[] _dynamicObjects = {};
     GameObject[] _robots = {};
     Configuration _configuration;
+    float _startedAt;
 
     void ListenForUDP()
     {
@@ -39,10 +40,12 @@ public class MainController : MonoBehaviour
 
     void ResetSimulation()
     {
-        foreach (var goal in GameObject.FindGameObjectsWithTag("goal")) {
+        foreach (var goal in GameObject.FindGameObjectsWithTag("goal"))
+        {
             goal.GetComponent<GoalController>().SetScore(0);
         }
         SpawnConfigurationObjects();
+        _startedAt = Time.time;
     }
 
     GameObject SpawnPrefab(GameObject prefab, string hexColor)
@@ -70,6 +73,7 @@ public class MainController : MonoBehaviour
                 return BallPrefab;
         }
     }
+
     void SpawnDynamicObjects(DynamicObject[] dynamicObjects)
     {
         _dynamicObjects = new GameObject[dynamicObjects.Length];
@@ -78,6 +82,7 @@ public class MainController : MonoBehaviour
             _dynamicObjects[index] = SpawnDynamicObject(dynamicObjects[index]);
         }
     }
+
     GameObject SpawnDynamicObject(DynamicObject dynamicObject)
     {
         var prefab = GetPrefab(dynamicObject.type);
@@ -95,6 +100,7 @@ public class MainController : MonoBehaviour
         controller.isGhost = isGhost;
         controller.isFlickering = dynamicObject.type == "flickering-ball";
         controller.value = dynamicObject.value;
+        controller.delay = dynamicObject.delay;
 
         if (isGhost)
         {
@@ -160,6 +166,7 @@ public class MainController : MonoBehaviour
         var position = gameObject.transform.position;
         return new [] { position.x, position.y, position.z, gameObject.transform.eulerAngles.y };
     }
+
     void SetPosition(GameObject gameObject, float[] position)
     {
         var rigidbody = gameObject.GetComponent<Rigidbody>();
@@ -172,7 +179,8 @@ public class MainController : MonoBehaviour
         }
     }
 
-    void SetCameraOptions(Configuration configuration) {
+    void SetCameraOptions(Configuration configuration)
+    {
         StreamCameraController cameraController = StreamCamera.GetComponent<StreamCameraController>();
         cameraController.SetCameraOffset(configuration.cameraOffset);
         cameraController.FrameInterval = 1f / configuration.streamFPS;
@@ -180,7 +188,8 @@ public class MainController : MonoBehaviour
         cameraController.StartVideoServer(configuration.streamPort);
     }
 
-    void StartUDPServer(int port) {
+    void StartUDPServer(int port)
+    {
         if (port > 0)
         {
             _socket = new UdpClient(port);
@@ -244,7 +253,7 @@ public class MainController : MonoBehaviour
         Debug.Log($"Config secondary location: {configSecondaryLocation}");
         LoadConfiguration(File.Exists(configDefaultLocation) ? configDefaultLocation : configSecondaryLocation);
 
-        SpawnConfigurationObjects();
+        ResetSimulation();
 
         Time.timeScale = _configuration.timeScale;
         QualitySettings.SetQualityLevel(_configuration.quality, true);
@@ -289,12 +298,15 @@ public class MainController : MonoBehaviour
             
             _highlightedObject = _selectedObject != null ? _selectedObject : target;
             var controller = _highlightedObject?.GetComponent<Draggable>();
-            if (_highlightedObject != null && controller != null) {
+            if (_highlightedObject != null && controller != null)
+            {
                 controller.Highlight();
-                if (Input.GetMouseButton(0)) {
+                if (Input.GetMouseButton(0))
+                {
                     controller.Drag(hit.point);
                 }
-                if (Input.GetMouseButton(1)) {
+                if (Input.GetMouseButton(1))
+                {
                     controller.PointAt(hit.point);
                 }
             }
@@ -309,6 +321,20 @@ public class MainController : MonoBehaviour
         {
             OpenConfiguration();
         }
+
+        var elapsed = Time.time - _startedAt;
+        foreach (var dynamicObject in _dynamicObjects)
+        {
+            if (dynamicObject == null)
+            {
+                continue;
+            }
+            var controller = dynamicObject.GetComponent<DynamicObjectController>();
+            if (controller.delay > 0)
+            {
+                dynamicObject.SetActive(elapsed > controller.delay);
+            }
+        }
     }
 }
 
@@ -321,6 +347,7 @@ public class DynamicObject
     public float mass;
     public float size;
     public int value;
+    public int delay;
 }
 [System.Serializable]
 public class Robot

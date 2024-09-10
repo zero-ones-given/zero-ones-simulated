@@ -101,6 +101,7 @@ Dynamic objects have the following properties
 | mass             | float   | Mass in kg
 | size             | float   | The size of the object in meters
 | value            | integer | The value given for delivering the object to a goal
+| delay            | integer | How many seconds to delay releasing the object to the arena
 
 ## Debugging
 You can find the logs that the simulator outputs here:

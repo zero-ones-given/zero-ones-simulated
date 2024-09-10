@@ -16,6 +16,7 @@ public class DynamicObjectController : Draggable
     public bool isFlickering = false;
     public bool isGhost = false;
     public int value = 0;
+    public int delay = 0;
 
     public override void Start()
     {
@@ -45,7 +46,9 @@ public class DynamicObjectController : Draggable
             var opacity = isGhost ? 0f : 0.1f;
             var color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, opacity);
             _renderer.material.color = color;
-        } else {
+        }
+        else
+        {
             _renderer.material.color = _originalColor;
         }
     }

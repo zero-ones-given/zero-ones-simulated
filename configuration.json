@@ -35,35 +35,39 @@
   "dynamicObjects": [
     {
       "type": "ball",
-      "color": "#ff00ff",
+      "color": "#00ff00",
       "position": [ 0.6, 0.5, 0 ],
       "mass": 0.01,
       "size": 0.07,
-      "value": -1
+      "value": 1,
+      "delay": 0
     },
     {
       "type": "ball",
-      "color": "#ff00ff",
+      "color": "#00ff00",
       "position": [ -0.6, 0.5, 0 ],
       "mass": 0.01,
       "size": 0.07,
-      "value": -1
+      "value": 1,
+      "delay": 0
     },
     {
       "type": "ball",
-      "color": "#ff00ff",
+      "color": "#00ff00",
       "position": [ 0, 0.5, 0.6 ],
       "mass": 0.01,
       "size": 0.07,
-      "value": -1
+      "value": 1,
+      "delay": 0
     },
     {
       "type": "ball",
-      "color": "#ff00ff",
+      "color": "#00ff00",
       "position": [ 0, 0.5, -0.6 ],
       "mass": 0.01,
       "size": 0.07,
-      "value": -1
+      "value": 1,
+      "delay": 0
     },
     {
       "type": "ball",
@@ -71,7 +75,8 @@
       "position": [ 0.12, 0.5, 0.12 ],
       "mass": 0.01,
       "size": 0.07,
-      "value": 1
+      "value": 1,
+      "delay": 0
     },
     {
       "type": "ball",
@@ -79,23 +84,44 @@
       "position": [ -0.12, 0.5, -0.12 ],
       "mass": 0.01,
       "size": 0.07,
-      "value": 1
+      "value": 1,
+      "delay": 0
     },
     {
       "type": "ball",
-      "color": "#00ff00",
+      "color": "#ff00ff",
       "position": [ 0.55, 0.5, 0.55 ],
       "mass": 0.01,
       "size": 0.07,
-      "value": 1
+      "value": -1,
+      "delay": 30
     },
     {
       "type": "ball",
-      "color": "#00ff00",
+      "color": "#ff00ff",
       "position": [ -0.55, 0.5, -0.55 ],
       "mass": 0.01,
       "size": 0.07,
-      "value": 1
+      "value": -1,
+      "delay": 60
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [ 0.55, 0.5, 0.55 ],
+      "mass": 0.01,
+      "size": 0.07,
+      "value": -1,
+      "delay": 90
+    },
+    {
+      "type": "ball",
+      "color": "#ff00ff",
+      "position": [ -0.55, 0.5, -0.55 ],
+      "mass": 0.01,
+      "size": 0.07,
+      "value": -1,
+      "delay": 120
     }
   ]
 }
