@@ -9,13 +9,15 @@ using System.Threading;
 public class FrameUpdatedEvent : EventArgs
 {
     public Color32[] Data = { };
-    public int Resolution { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
 }
 
 public class StreamCameraController : MonoBehaviour
 {
     public float FrameInterval = 1f / 10;
-    public int Resolution = 720;
+    public int Width = 720;
+    public int Height = 720;
 
     private Camera _streamCamera;
     private VideoServer _videoServer;
@@ -35,10 +37,10 @@ public class StreamCameraController : MonoBehaviour
     public void StartVideoServer(int port)
     {
         _streamCamera = this.GetComponent<Camera>();
-        _renderTexture = new RenderTexture(Resolution, Resolution, 16, RenderTextureFormat.ARGB32);
+        _renderTexture = new RenderTexture(Width, Height, 16, RenderTextureFormat.ARGB32);
         _renderTexture.Create();
         _streamCamera.targetTexture = _renderTexture;
-        _tempTexture = new Texture2D(Resolution, Resolution, TextureFormat.RGBA32, false);
+        _tempTexture = new Texture2D(Width, Height, TextureFormat.RGBA32, false);
 
         _videoServer = new VideoServer();
         _videoServer.Start(port, this);
@@ -55,7 +57,7 @@ public class StreamCameraController : MonoBehaviour
     {
         if (FrameUpdated != null)
         {
-            FrameUpdated.Invoke(this, new FrameUpdatedEvent { Data = frameData, Resolution = Resolution });
+            FrameUpdated.Invoke(this, new FrameUpdatedEvent { Data = frameData, Width = Width, Height = Height });
         }
     }
 
@@ -65,7 +67,7 @@ public class StreamCameraController : MonoBehaviour
         {
             _lastFrameAt = Time.realtimeSinceStartup;
             RenderTexture.active = _renderTexture;
-            _tempTexture.ReadPixels(new Rect(0, 0, Resolution, Resolution), 0, 0, false);
+            _tempTexture.ReadPixels(new Rect(0, 0, Width, Height), 0, 0, false);
             _tempTexture.Apply();
             OnFrameUpdated(_tempTexture.GetPixels32());
             RenderTexture.active = null;

@@ -3,7 +3,8 @@
   "timeScale": 1,
   "controlPort": 3000,
   "streamFPS": 25,
-  "streamResolution": 720,
+  "streamWidth": 960,
+  "streamHeight": 720,
   "streamPort": 8080,
   "cameraOffset": [ 0, -0.06, 0, 0, 0, 0 ],
   "robots": [

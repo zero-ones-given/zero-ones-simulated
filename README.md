@@ -7,7 +7,6 @@ A simple simulator for a robot arena inspired by the [Robot Uprising Micro Invad
 - You can use one of the [pre built binaries](https://github.com/zero-ones-given/zero-ones-simulated/releases) (Windows, MacOS, Linux)
 - Alternatively you can build and run the Unity project
     - Double click the `MainScene` from the editor (assets/scenes/MainScene)
-    - If you run the project straight from the Unity editor, make sure to select 720x720 (or the resolution you've confiugred in the [configuration.json](configuration.json)) as your resolution
     - The built version expects a [configuration.json](configuration.json) file and a folder called Images in the same folder as the binary. You can copy them to the build folder from the root of the project.
 - Once the simulator is running, you can get the overhead video feed (in [MJPEG format](https://en.wikipedia.org/wiki/Motion_JPEG)) from: [http://localhost:8080](http://localhost:8080)
     - On some systems the standalone version can't output video while the Unity project is open
@@ -74,7 +73,9 @@ Once you've built the project, you can use the [configuration.json](configuratio
 | timeScale        | float   | Can be set to e.g. `1.5` if you want to simulate faster than real time
 | controlPort      | integer | This port will listen to commands such as `reset` to reset the simulation
 | streamFPS        | integer | The target FPS for the video stream. On a slow system you probably want to go lower than the default 25. The process of capturing and encoding frames is quite slow at the moment so trying to get over 30 might not be a good idea even on faster systems. The FPS limit is not set very precisely. In certain situations you may get a higher FPS than the set value.
-| streamResolution | integer | The resolution of the simulation stream (and window). The same resolution will be used for width and height
+| streamResolution | integer | The resolution of the simulation stream (and window). The same resolution will be used for width and height (Can be omitted if streamWidth and streamHeight are set, which we recommend so you can test your solution works with non-square aspect ratios)
+| streamWidth      | integer | The width of the simulation stream (and window) in pixels. (Optional)
+| streamHeight     | integer | The height of the simulation stream (and window) in pixels. (Optional)
 | streamPort       | integer | The port for the video stream
 | cameraOffset     | array   | A list of six floating point numbers in the following order: x offset, y offset, z offset, x angle, y angle and z angle in degrees. This affects the overhead stream camera and can be used to test camera misalignment. An example of a slightly misaligned camera: `[0.13, 0, 0.02, -3.4, 1.3, 0]` or camera at the side of the arena: `[1, 0, 0, -27, 0, 0]`
 | robots           | array   | A list of robot objects
@@ -101,7 +102,7 @@ Dynamic objects have the following properties
 | mass             | float   | Mass in kg
 | size             | float   | The size of the object in meters
 | value            | integer | The value given for delivering the object to a goal
-| delay            | integer | How many seconds to delay releasing the object to the arena
+| delay            | integer | How many seconds to delay releasing the object to the arena (Optional)
 
 ## Debugging
 You can find the logs that the simulator outputs here:

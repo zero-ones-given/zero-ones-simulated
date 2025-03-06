@@ -184,7 +184,8 @@ public class MainController : MonoBehaviour
         StreamCameraController cameraController = StreamCamera.GetComponent<StreamCameraController>();
         cameraController.SetCameraOffset(configuration.cameraOffset);
         cameraController.FrameInterval = 1f / configuration.streamFPS;
-        cameraController.Resolution = configuration.streamResolution;
+        cameraController.Width = configuration.streamWidth;
+        cameraController.Height = configuration.streamHeight;
         cameraController.StartVideoServer(configuration.streamPort);
     }
 
@@ -224,6 +225,8 @@ public class MainController : MonoBehaviour
     {
         var jsonString = File.ReadAllText(filePath);
         _configuration = JsonUtility.FromJson<Configuration>(jsonString);
+        _configuration.streamWidth = _configuration.streamWidth > 0 ? _configuration.streamWidth : _configuration.streamResolution;
+        _configuration.streamHeight = _configuration.streamHeight > 0 ? _configuration.streamHeight : _configuration.streamResolution;
     }
 
     void SpawnConfigurationObjects()
@@ -257,7 +260,7 @@ public class MainController : MonoBehaviour
 
         Time.timeScale = _configuration.timeScale;
         QualitySettings.SetQualityLevel(_configuration.quality, true);
-        Screen.SetResolution(_configuration.streamResolution, _configuration.streamResolution, false);
+        Screen.SetResolution(_configuration.streamWidth, _configuration.streamHeight, false);
         SetCameraOptions(_configuration);
         StartUDPServer(_configuration.controlPort);
     }
@@ -365,6 +368,8 @@ public class Configuration
     public int controlPort;
     public int streamFPS;
     public int streamResolution;
+    public int streamWidth;
+    public int streamHeight;
     public int streamPort;
     public float[] cameraOffset;
     public Robot[] robots;
