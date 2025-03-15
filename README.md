@@ -88,7 +88,7 @@ Robot objects have the following properties
 | ---------------- | ------- | ----- |
 | marker           | string  | Relative path to an image file that will be displayed on top of the robot
 | color            | string  | A hexadecimal color code
-| control          | string  | One of the following: `arrows`, `wasd`, `udp:3001` (the port can be any available port)
+| control          | string  | One of the following: `arrows`, `wasd`, `udp:3001` (the port can be any available port), `random` (useful for testing against moving opponents)
 | position         | array   | A list of three floating point numbers and an optional integer in the following order: x, y, z, angle in degrees
 
 ### Dynamic object

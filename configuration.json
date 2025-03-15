@@ -17,7 +17,7 @@
     {
       "marker": "../Images/aruco-1.png",
       "color": "#ffffff",
-      "control": "wasd",
+      "control": "random",
       "position": [ 0.22, 0.3, -0.42, 315 ]
     },
     {
