@@ -158,6 +158,10 @@ public class MainController : MonoBehaviour
             Int32.TryParse(controlParts[1], out var port);
             robotController.Port = port;
         }
+
+        robotController.FlickerProbability = robot.flickerProbability;
+        robotController.FlickerDuration = robot.flickerDuration;
+
         return newRobot;
     }
 
@@ -356,6 +360,8 @@ public class DynamicObject
 public class Robot
 {
     public string marker;
+    public float flickerProbability;
+    public float flickerDuration;
     public string color;
     public string control;
     public float[] position;

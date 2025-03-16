@@ -19,6 +19,8 @@ public class RobotController : Draggable
     private const float FULL_TORQUE = 3.6f;
     public string Control;
     public int Port = 0;
+    public float FlickerProbability = 0f;
+    public float FlickerDuration = 0f;
 
     public WheelCollider[] rightWheels;
     public WheelCollider[] leftWheels;
@@ -26,6 +28,7 @@ public class RobotController : Draggable
     private float _leftTorque = 0;
     private float _rightTorque = 0;
     private float _lastUpdate = 0;
+    private float _lastFlicker = 0;
 
     public void reset()
     {
@@ -131,6 +134,18 @@ public class RobotController : Draggable
         }
     }
 
+    void handleArucoFlicker() {
+        if (UnityEngine.Random.Range(0f, 1f) < FlickerProbability) {
+            _lastFlicker = Time.time;
+        }
+        if (_lastFlicker > 0) {
+            transform
+                .Find("Marker")
+                .GetComponent<Renderer>()
+                .enabled = _lastFlicker + FlickerDuration < Time.time;
+        }
+    }
+
     public override void Start()
     {
         base.Start();
@@ -167,6 +182,8 @@ public class RobotController : Draggable
         if (Control == ControlDevices.Random) {
             RandomControl();
         }
+
+        handleArucoFlicker();
 
         foreach (WheelCollider wheelCollider in leftWheels)
         {

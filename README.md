@@ -84,12 +84,14 @@ Once you've built the project, you can use the [configuration.json](configuratio
 ### Robot object
 Robot objects have the following properties
 
-| Option           | Type    | Notes |
-| ---------------- | ------- | ----- |
-| marker           | string  | Relative path to an image file that will be displayed on top of the robot
-| color            | string  | A hexadecimal color code
-| control          | string  | One of the following: `arrows`, `wasd`, `udp:3001` (the port can be any available port), `random` (useful for testing against moving opponents)
-| position         | array   | A list of three floating point numbers and an optional integer in the following order: x, y, z, angle in degrees
+| Option             | Type    | Notes |
+| ------------------ | ------- | ----- |
+| marker             | string  | Relative path to an image file that will be displayed on top of the robot
+| flickerProbability | float   | The probability of the marker being hidden at a randomly selected time. Between 0 and 1. For example 0.0005 is a good starting value. This can be used to make sure tracking a robot works even if the marker is sometimes blocked by e.g. a reflection. (Optional)
+| flickerDuration    | float   | Duration of hiding the marker in seconds (Optional)
+| color              | string  | A hexadecimal color code
+| control            | string  | One of the following: `arrows`, `wasd`, `udp:3001` (the port can be any available port), `random` (useful for testing against moving opponents)
+| position           | array   | A list of three floating point numbers and an optional integer in the following order: x, y, z, angle in degrees
 
 ### Dynamic object
 Dynamic objects have the following properties

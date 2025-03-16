@@ -28,6 +28,8 @@
     },
     {
       "marker": "../Images/aruco-3.png",
+      "flickerProbability": 0.0005,
+      "flickerDuration": 0.3,
       "color": "#000000",
       "control": "udp:3002",
       "position": [ -0.22, 0.3, 0.42, 135 ]
