@@ -6,7 +6,7 @@
   "streamWidth": 960,
   "streamHeight": 720,
   "streamPort": 8080,
-  "cameraOffset": [ 0, -0.06, 0, 0, 0, 0 ],
+  "cameraOffset": [0.13, 0.03, -0.12, -2.5, 1, 0],
   "robots": [
     {
       "marker": "../Images/aruco-0.png",

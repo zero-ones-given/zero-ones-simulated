@@ -14,10 +14,9 @@ A simple simulator for a robot arena inspired by the [Robot Uprising Micro Invad
 ![Screenshot](screenshot.jpg)
 
 - You can control one of the robots with your keyboard (this is enabled in the default configuration for testing purposes)
-- You can control another robot by sending semicolon delimited string of motor values as UDP packets to localhost port 3001 or 3002
-    - The values shoud be between 100 and -100
-    - It's a good idea to abstract sending commands in your codebase. We've been experimenting using bluetooth for controlling the robots with promising results and might switch over to bluetooth alltogether.
+- You can control another robot by sending semicolon delimited string of motor values as UDP packets to localhost port 3001 or 3002. The values shoud be between 100 and -100
 - You can change the starting positions and control methods by editing the [configuration.json](configuration.json)
+- The camera is slightly tilted and the flickering option for one of the robots has been enabled in the default configuration to help you develop robust solutions. In the real world, the camera is never perfectly aligned and aruco marker or ball detection will occasionally fail.
 
 To test out controlling the robot via UDP you can for example use the following command (Windows does not have netcat by default)
 ```
@@ -77,7 +76,7 @@ Once you've built the project, you can use the [configuration.json](configuratio
 | streamWidth      | integer | The width of the simulation stream (and window) in pixels. (Optional)
 | streamHeight     | integer | The height of the simulation stream (and window) in pixels. (Optional)
 | streamPort       | integer | The port for the video stream
-| cameraOffset     | array   | A list of six floating point numbers in the following order: x offset, y offset, z offset, x angle, y angle and z angle in degrees. This affects the overhead stream camera and can be used to test camera misalignment. An example of a slightly misaligned camera: `[0.13, 0, 0.02, -3.4, 1.3, 0]` or camera at the side of the arena: `[1, 0, 0, -27, 0, 0]`
+| cameraOffset     | array   | A list of six floating point numbers in the following order: x offset, y offset, z offset, x angle, y angle and z angle in degrees. This affects the overhead stream camera and can be used to test camera misalignment. An example of a slightly misaligned camera: `[0.13, 0, 0.02, -3.4, 1.3, 0]` or camera at the side of the arena: `[1, 0, 0, -27, 0, 0]`. A perfectly aligned camera would use zero offset values: `[0, 0, 0, 0, 0, 0]`
 | robots           | array   | A list of robot objects
 | dynamicObjects   | array   | A list of balls or obstacles
 

@@ -6,7 +6,7 @@
   "streamWidth": 960,
   "streamHeight": 720,
   "streamPort": 8080,
-  "cameraOffset": [ 0, -0.06, 0, 0, 0, 0 ],
+  "cameraOffset": [0.13, 0.03, -0.12, -2.5, 1, 0],
   "robots": [
     {
       "marker": "../Images/aruco-0.png",
@@ -17,7 +17,7 @@
     {
       "marker": "../Images/aruco-1.png",
       "color": "#ffffff",
-      "control": "wasd",
+      "control": "random",
       "position": [ 0.22, 0.3, -0.42, 315 ]
     },
     {
@@ -28,6 +28,8 @@
     },
     {
       "marker": "../Images/aruco-3.png",
+      "flickerProbability": 0.0005,
+      "flickerDuration": 0.3,
       "color": "#000000",
       "control": "udp:3002",
       "position": [ -0.22, 0.3, 0.42, 135 ]
