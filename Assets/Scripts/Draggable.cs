@@ -39,7 +39,7 @@ public class Draggable : MonoBehaviour
             _body.transform.position.y,
             point.z
         );
-        _body.velocity = new Vector3(0, 0, 0);
+        _body.linearVelocity = new Vector3(0, 0, 0);
     }
 
     public void PointAt(Vector3 point)

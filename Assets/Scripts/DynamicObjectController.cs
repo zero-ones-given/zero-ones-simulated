@@ -31,7 +31,7 @@ public class DynamicObjectController : Draggable
 
     void Update()
     {
-        _dynamicObject.velocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
+        _dynamicObject.linearVelocity = FlipVelocityIfOver(_dynamicObject, _arenaMaxX, _arenaMaxY, _arenaMaxZ);
         _dynamicObject.transform.position = EnsurePositionIsWithin(_dynamicObject.transform.position, _arenaMaxX, _arenaMaxY, _arenaMaxZ, 0.1f);
 
         if (_renderer == null || IsHighlighted)
@@ -85,9 +85,9 @@ public class DynamicObjectController : Draggable
     {
         var position = body.transform.position;
         return new Vector3(
-            FlipIfOver(body.velocity.x, position.x, -xLimit, xLimit),
-            FlipIfOver(body.velocity.y, position.y, 0, yLimit),
-            FlipIfOver(body.velocity.z, position.z, -zLimit, zLimit)
+            FlipIfOver(body.linearVelocity.x, position.x, -xLimit, xLimit),
+            FlipIfOver(body.linearVelocity.y, position.y, 0, yLimit),
+            FlipIfOver(body.linearVelocity.z, position.z, -zLimit, zLimit)
         );
     }
 

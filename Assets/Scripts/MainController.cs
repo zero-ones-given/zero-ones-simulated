@@ -174,7 +174,7 @@ public class MainController : MonoBehaviour
     void SetPosition(GameObject gameObject, float[] position)
     {
         var rigidbody = gameObject.GetComponent<Rigidbody>();
-        rigidbody.velocity = new Vector3(0,0,0);
+        rigidbody.linearVelocity = new Vector3(0,0,0);
         rigidbody.angularVelocity = new Vector3(0,0,0);
         gameObject.transform.position = new Vector3(position[0], position[1], position[2]);
         if (position.Length == 4)
