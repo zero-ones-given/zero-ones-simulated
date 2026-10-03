@@ -37,6 +37,8 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.sendto(bytes("reset", "utf-8"), ("127.0.0.1", 3000))
 ```
 
+If you wish to reload the configration file (and reset), you can send `reload` instead.
+
 ## Manipulating object locations
 You can drag and drop objects around. Left mouse button drags the object and right mouse button points the highlighted object towards the cursor.
 
@@ -70,7 +72,7 @@ Once you've built the project, you can use the [configuration.json](configuratio
 | ---------------- | ------- | ----- |
 | quality          | integer | The Unity graphics [quality level](https://docs.unity3d.com/ScriptReference/QualitySettings.SetQualityLevel.html)
 | timeScale        | float   | Can be set to e.g. `1.5` if you want to simulate faster than real time
-| controlPort      | integer | This port will listen to commands such as `reset` to reset the simulation
+| controlPort      | integer | This port will listen to commands such as `reset` and `reload` to reset the simulation
 | streamFPS        | integer | The target FPS for the video stream. On a slow system you probably want to go lower than the default 25. The process of capturing and encoding frames is quite slow at the moment so trying to get over 30 might not be a good idea even on faster systems. The FPS limit is not set very precisely. In certain situations you may get a higher FPS than the set value.
 | streamResolution | integer | The resolution of the simulation stream (and window). The same resolution will be used for width and height (Can be omitted if streamWidth and streamHeight are set, which we recommend so you can test your solution works with non-square aspect ratios)
 | streamWidth      | integer | The width of the simulation stream (and window) in pixels. (Optional)

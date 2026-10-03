@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Net;
 using System.Net.Sockets;
 using System.Linq;
@@ -222,7 +223,7 @@ public class MainController : MonoBehaviour
     void OpenConfiguration()
     {
         LoadConfiguration(_configurationFilePath);
-        SpawnConfigurationObjects();
+        ResetSimulation();
     }
 
     void LoadConfiguration(string filePath)
@@ -271,13 +272,19 @@ public class MainController : MonoBehaviour
 
     void Update ()
     {
+        var trimmedCommand = _command == null ? "" : Regex.Replace(_command, @"\s+", "");
         if (Input.GetKey("escape"))
         {
             Application.Quit();
         }
-        if (_command == "reset" || Input.GetKey("q"))
+        if (trimmedCommand == "reset" || Input.GetKey("q"))
         {
             ResetSimulation();
+            _command = null;
+        }
+        if (trimmedCommand == "reload")
+        {
+            OpenConfiguration();
             _command = null;
         }
 
