@@ -38,7 +38,7 @@
   "dynamicObjects": [
     {
       "type": "ball",
-      "color": "#ffff00",
+      "color": "#00ff00",
       "position": [ 0.6, 0.5, 0 ],
       "mass": 0.01,
       "size": 0.07,

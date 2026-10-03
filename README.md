@@ -30,14 +30,7 @@ sock.sendto(bytes("100;-100", "utf-8"), ("127.0.0.1", 3001))
 ```
 
 ## Resetting the simulation
-You can reset the simulation by pressing the `q` key or by sending the command `reset` via UDP to the `controlPort` defined in the configuration (3000 by default). For example in Python you could do this:
-```
-import socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.sendto(bytes("reset", "utf-8"), ("127.0.0.1", 3000))
-```
-
-If you wish to reload the configration file (and reset), you can send `reload` instead.
+You can reset the simulation by pressing the `q` key or by sending the command `reset` to the `controlPort`.
 
 ## Manipulating object locations
 You can drag and drop objects around. Left mouse button drags the object and right mouse button points the highlighted object towards the cursor.
@@ -48,6 +41,26 @@ You can load saved positions from [configuration.json](configuration.json) by pr
 When running from the Unity editor you can press `ctrl + shif + o` instead to prevent the editor from stealing the keypress.
 
 On MacOS when using the pre built binaries App Translocation may prevent loading or saving the configuration. This is also why the configuration file was moved inside the .app folder. You can still edit it by right clicking the .app and selecting Show Package Contents.
+
+## Sending commands to the controlPort
+You can send commands via UDP to the `controlPort` defined in the configuration (3000 by default). For example in Python you could do this:
+```
+import socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.sendto(bytes("reset", "utf-8"), ("127.0.0.1", 3000))
+```
+
+Currently supported commands are:
+| Command | Description |
+| ------- | ----------- |
+| reset   | Reset the simulation
+| reload  | Reload the configration file and reset the simulation
+| scores  | Responds with the current scores delimited with a semicolon
+
+If you wish to reload the configration file (and reset), you can send `reload` instead.
+
+## Getting current scores
+You can get the current scores by sending
 
 ## Reading the video stream
 The video stream can be read by any client that supports MJPEG. For example in Python you could do this with OpenCV:

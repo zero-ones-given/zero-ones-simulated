@@ -24,6 +24,7 @@ public class MainController : MonoBehaviour
     GameObject[] _robots = {};
     Configuration _configuration;
     float _startedAt;
+    int[] _scores;
 
     void ListenForUDP()
     {
@@ -32,10 +33,21 @@ public class MainController : MonoBehaviour
 
     void ReceiveData(IAsyncResult result)
     {
-        var anyIP = new IPEndPoint(IPAddress.Any, 0);
-        var data = _socket.EndReceive(result, ref anyIP);
-        _command = Encoding.UTF8.GetString(data);
+        var remote = new IPEndPoint(IPAddress.Any, 0);
+        var data = _socket.EndReceive(result, ref remote);
+        var decodedData = Encoding.UTF8.GetString(data);
+        _command = Regex.Replace(decodedData, @"\s+", "");
         Debug.Log($"Main controller recieved upd message: {_command}");
+
+        if (_command == "scores") {
+            try {
+                Byte[] sendBytes = Encoding.ASCII.GetBytes($"{String.Join(";", _scores)}\n");
+                _socket.Send(sendBytes, sendBytes.Length, remote);
+            } catch ( Exception e ) {
+                Debug.Log($"Failed to send UDP response: {e}");
+            }
+        }
+
         ListenForUDP();
     }
 
@@ -272,17 +284,21 @@ public class MainController : MonoBehaviour
 
     void Update ()
     {
-        var trimmedCommand = _command == null ? "" : Regex.Replace(_command, @"\s+", "");
+        // Keep track of score so that the "scores" UDP response can use it in another thread that does not have access to FindGameObjectsWithTag
+        _scores = GameObject.FindGameObjectsWithTag("goal")
+            .Select(goal => goal.GetComponent<GoalController>().GetScore())
+            .ToArray();
+
         if (Input.GetKey("escape"))
         {
             Application.Quit();
         }
-        if (trimmedCommand == "reset" || Input.GetKey("q"))
+        if (_command == "reset" || Input.GetKey("q"))
         {
             ResetSimulation();
             _command = null;
         }
-        if (trimmedCommand == "reload")
+        if (_command == "reload")
         {
             OpenConfiguration();
             _command = null;

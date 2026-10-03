@@ -6,6 +6,11 @@ public class GoalController : MonoBehaviour
     private int score;
     public Text scoreText;
     
+    public int GetScore()
+    {
+        return score;
+    }
+
     public void SetScore(int newScore)
     {
         score = newScore;
