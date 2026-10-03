@@ -30,7 +30,7 @@ sock.sendto(bytes("100;-100", "utf-8"), ("127.0.0.1", 3001))
 ```
 
 ## Resetting the simulation
-You can reset the simulation by pressing the `q` key or by sending the command `reset` to the `controlPort`.
+You can reset the simulation by pressing the `q` key or by sending the command `reset` to the `controlPort` (see the "Sending commands to the controlPort" section below).
 
 ## Manipulating object locations
 You can drag and drop objects around. Left mouse button drags the object and right mouse button points the highlighted object towards the cursor.
@@ -56,8 +56,6 @@ Currently supported commands are:
 | reset   | Reset the simulation
 | reload  | Reload the configration file and reset the simulation
 | scores  | Responds with the current scores delimited with a semicolon
-
-If you wish to reload the configration file (and reset), you can send `reload` instead.
 
 ## Getting current scores
 You can get the current scores by sending
